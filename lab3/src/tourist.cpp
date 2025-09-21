@@ -10,18 +10,18 @@ Tourist::Tourist(const string& f, const string& l,
                  const string& passport)
     : Person(f, l, m, y), passportData(passport) {}
 
-void Tourist::setPassportData(const string& p) { passportData = p; }
-string Tourist::getPassportData() const { return passportData; }
+void Tourist::setPassportData(std::string_view p) { passportData = p; }
+std::string_view Tourist::getPassportData() const { return passportData; }
 
-void Tourist::addBorderCrossing(const Date& d, const string& country) {
-    borderCrossings.push_back({d, country});
+void Tourist::addBorderCrossing(const Date& d, std::string_view country) {
+    borderCrossings.emplace_back(d, std::string(country));
 }
 
 void Tourist::printBorderCrossings() const {
     cout << "Border crossings:\n";
-    for (const auto& b : borderCrossings) {
-        b.first.printDate();
-        cout << " - " << b.second << endl;
+    for (const auto& [date, country] : borderCrossings) {
+        date.printDate();
+        cout << " - " << country << endl;
     }
 }
 

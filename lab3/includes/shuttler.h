@@ -3,6 +3,7 @@
 #include "tourist.h"
 #include <string>
 #include <vector>
+#include <string_view>
 
 class Shuttler : public Entrepreneur, public Tourist {
 private:
@@ -10,12 +11,8 @@ private:
 
 public:
     Shuttler();
-    Shuttler(const std::string& f, const std::string& l,
-             const std::string& m, int y,
-             int lic, const std::string& addr, int inn,
-             const std::string& passport);
 
-    void addShoppingAddress(const std::string& address);
+    void addShoppingAddress(std::string_view address);
     void printShoppingAddresses() const;
 
     void inputData() override;

@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <utility>
+#include <string_view>
 
 class Tourist : public virtual Person {
 private:
@@ -16,10 +17,10 @@ public:
             const std::string& m, int y,
             const std::string& passport);
 
-    void setPassportData(const std::string& p);
-    std::string getPassportData() const;
+    void setPassportData(std::string_view p);
+    std::string_view getPassportData() const;
 
-    void addBorderCrossing(const Date& d, const std::string& country);
+    void addBorderCrossing(const Date& d, std::string_view country);
     void printBorderCrossings() const;
 
     void inputData() override;
