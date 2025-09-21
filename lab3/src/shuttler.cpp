@@ -26,7 +26,7 @@ void Shuttler::printShoppingAddresses() const {
 
 void Shuttler::inputData() {
     Entrepreneur::inputData();
-    passportData = safeInputWord("Enter passport data: ");
+    setPassportData(safeInputWord("Enter passport data: "));
     int n = safePositiveInputInt("How many shopping addresses? ");
     for (int i = 0; i < n; i++) {
         string addr = safeInputLine("Address " + to_string(i + 1) + ": ");
@@ -37,9 +37,9 @@ void Shuttler::inputData() {
 void Shuttler::printInfo() const {
     cout << "\n[Shuttler]\n";
     Person::printInfo();
-    cout << "License: " << licenseNumber
-         << ", INN: " << inn
-         << ", Address: " << registrationAddress << endl;
-    cout << "Passport: " << passportData << endl;
+    cout << "License: " << getLicenseNumber()
+         << ", INN: " << getInn()
+         << ", Address: " << getRegistrationAddress() << endl;
+    cout << "Passport: " << getPassportData() << endl;
     printShoppingAddresses();
 }

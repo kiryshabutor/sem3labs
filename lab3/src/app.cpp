@@ -3,7 +3,7 @@
 #include <iostream>
 using namespace std;
 
-void App::showMainMenu() {
+void App::showMainMenu() const {
     cout << "\n=== MAIN MENU ===\n";
     cout << "1. Create Person\n";
     cout << "2. Create Entrepreneur\n";
@@ -42,7 +42,7 @@ void App::handleChoice(int choice) {
     }
 }
 
-void App::menuPerson() {
+void App::menuPerson() const {
     int choice;
     do {
         cout << "\n=== PERSON MENU ===\n";
@@ -61,7 +61,7 @@ void App::menuPerson() {
     } while (choice != 0);
 }
 
-void App::menuEntrepreneur() {
+void App::menuEntrepreneur() const {
     auto* e = dynamic_cast<Entrepreneur*>(current.get());
     if (!e) return;
 
@@ -95,7 +95,7 @@ void App::menuEntrepreneur() {
     } while (choice != 0);
 }
 
-void App::menuTourist() {
+void App::menuTourist() const {
     auto* t = dynamic_cast<Tourist*>(current.get());
     if (!t) return;
 
@@ -129,7 +129,7 @@ void App::menuTourist() {
     } while (choice != 0);
 }
 
-void App::menuShuttler() {
+void App::menuShuttler() const {
     auto* s = dynamic_cast<Shuttler*>(current.get());
     if (!s) return;
 

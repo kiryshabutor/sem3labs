@@ -6,7 +6,7 @@
 #include <utility>
 
 class Tourist : public virtual Person {
-protected:
+private:
     std::string passportData;
     std::vector<std::pair<Date, std::string>> borderCrossings;
 

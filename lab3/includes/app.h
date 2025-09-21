@@ -8,13 +8,13 @@
 class App {
 private:
     std::unique_ptr<Person> current;
-    void showMainMenu();
+    void showMainMenu() const;
     void handleChoice(int choice);
 
-    void menuPerson();
-    void menuEntrepreneur();
-    void menuTourist();
-    void menuShuttler();
+    void menuPerson() const;
+    void menuEntrepreneur() const;
+    void menuTourist() const;
+    void menuShuttler() const;
 
 public:
     App() = default;

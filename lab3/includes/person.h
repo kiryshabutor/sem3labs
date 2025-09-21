@@ -2,7 +2,7 @@
 #include <string>
 
 class Person {
-protected:
+private:
     std::string firstName;
     std::string lastName;
     std::string middleName;

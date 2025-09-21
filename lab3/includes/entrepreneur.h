@@ -6,7 +6,7 @@
 #include <utility>
 
 class Entrepreneur : public virtual Person {
-protected:
+private:
     int licenseNumber;
     std::string registrationAddress;
     int inn;
