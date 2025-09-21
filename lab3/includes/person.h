@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <string_view>
 
 class Person {
 private:
@@ -19,9 +20,9 @@ public:
     std::string getMiddleName() const;
     int getBirthYear() const;
 
-    void setFirstName(const std::string& f);
-    void setLastName(const std::string& l);
-    void setMiddleName(const std::string& m);
+    void setFirstName(std::string_view f);
+    void setLastName(std::string_view l);
+    void setMiddleName(std::string_view m);
     void setBirthYear(int y);
 
     virtual void inputData();

@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <utility>
+#include <string_view>
 
 class Entrepreneur : public virtual Person {
 private:
@@ -19,11 +20,11 @@ public:
                  int lic, const std::string& addr, int i);
 
     void setLicenseNumber(int lic);
-    void setRegistrationAddress(const std::string& addr);
+    void setRegistrationAddress(std::string_view addr);
     void setInn(int i);
 
     int getLicenseNumber() const;
-    std::string getRegistrationAddress() const;
+    std::string_view getRegistrationAddress() const;
     int getInn() const;
 
     void addTaxPayment(const Date& d, float sum);

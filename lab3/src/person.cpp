@@ -17,9 +17,9 @@ string Person::getLastName() const { return lastName; }
 string Person::getMiddleName() const { return middleName; }
 int Person::getBirthYear() const { return birthYear; }
 
-void Person::setFirstName(const string& f) { firstName = f; }
-void Person::setLastName(const string& l) { lastName = l; }
-void Person::setMiddleName(const string& m) { middleName = m; }
+void Person::setFirstName(std::string_view f) { firstName = f; }
+void Person::setLastName(std::string_view l) { lastName = l; }
+void Person::setMiddleName(std::string_view m) { middleName = m; }
 void Person::setBirthYear(int y) { birthYear = y; }
 
 void Person::inputData() {
