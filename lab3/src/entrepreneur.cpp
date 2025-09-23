@@ -40,7 +40,8 @@ void Entrepreneur::addTaxPayment(const Date& d, float sum) {
     if (taxCount >= taxCapacity) {
         ensureCapacity();
     }
-    taxPayments[taxCount++] = {d, sum};
+    taxCount++;
+    taxPayments[taxCount] = {d, sum};
 }
 
 void Entrepreneur::printTaxPayments() const {
