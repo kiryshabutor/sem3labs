@@ -36,13 +36,13 @@ void Entrepreneur::ensureCapacity() {
     taxCapacity = newCapacity;
 }
 
-void Entrepreneur::addTaxPayment(const Date& d, float sum) {
-    if (taxCount >= taxCapacity) {
-        ensureCapacity();
-    }
-    ++taxCount;
-    taxPayments[taxCount-1] = {d, sum};
-}
+// void Entrepreneur::addTaxPayment(const Date& d, float sum) {
+//     if (taxCount >= taxCapacity) {
+//         ensureCapacity();
+//     }
+//     ++taxCount;
+//     taxPayments[taxCount-1] = {d, sum};
+// }
 
 void Entrepreneur::printTaxPayments() const {
     cout << "Tax payments:\n";

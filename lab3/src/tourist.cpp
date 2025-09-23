@@ -28,13 +28,13 @@ void Tourist::ensureCapacity() {
     borderCapacity = newCapacity;
 }
 
-void Tourist::addBorderCrossing(const Date& d, std::string_view country) {
-    if (borderCount >= borderCapacity) {
-        ensureCapacity();
-    }
-    ++borderCount;
-    borderCrossings[borderCount-1] = {d, string(country)};
-}
+// void Tourist::addBorderCrossing(const Date& d, std::string_view country) {
+//     if (borderCount >= borderCapacity) {
+//         ensureCapacity();
+//     }
+//     ++borderCount;
+//     borderCrossings[borderCount-1] = {d, string(country)};
+// }
 
 void Tourist::printBorderCrossings() const {
     cout << "Border crossings:\n";
