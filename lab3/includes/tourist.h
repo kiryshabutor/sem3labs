@@ -7,11 +7,11 @@
 
 class Tourist : public virtual Person {
 private:
-    std::string passportData;
+    std::string passportData{};
 
-    std::pair<Date, std::string>* borderCrossings;
-    int borderCount;
-    int borderCapacity;
+    std::pair<Date, std::string>* borderCrossings{nullptr};
+    int borderCount{0};
+    int borderCapacity{0};
 
     void ensureCapacity();
 

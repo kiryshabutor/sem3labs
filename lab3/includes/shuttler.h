@@ -6,9 +6,9 @@
 
 class Shuttler : public Entrepreneur, public Tourist {
 private:
-    std::string* shoppingAddresses;
-    int shopCount;
-    int shopCapacity;
+    std::string* shoppingAddresses{nullptr};
+    int shopCount{0};
+    int shopCapacity{0};
 
     void ensureCapacity();
 

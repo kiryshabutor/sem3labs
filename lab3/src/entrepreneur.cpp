@@ -3,9 +3,7 @@
 #include <iostream>
 using namespace std;
 
-Entrepreneur::Entrepreneur()
-    : Person(), licenseNumber(0), registrationAddress(""), inn(0),
-      taxPayments(nullptr), taxCount(0), taxCapacity(0) {}
+Entrepreneur::Entrepreneur() : Person() {}
 
 Entrepreneur::Entrepreneur(const string &f, const string &l,
                            const string &m, int y,
@@ -13,10 +11,7 @@ Entrepreneur::Entrepreneur(const string &f, const string &l,
     : Person(f, l, m, y),
       licenseNumber(lic),
       registrationAddress(addr),
-      inn(i),
-      taxPayments(nullptr),
-      taxCount(0),
-      taxCapacity(0) {}
+      inn(i) {}
 
 Entrepreneur::~Entrepreneur() {
     delete[] taxPayments;
@@ -32,11 +27,14 @@ int Entrepreneur::getInn() const { return inn; }
 
 void Entrepreneur::ensureCapacity() {
     if (taxCount < taxCapacity) return;
+
     int newCapacity = (taxCapacity == 0 ? 2 : taxCapacity * 2);
     auto* newArr = new pair<Date, float>[newCapacity];
+
     for (int i = 0; i < taxCount; i++) {
         newArr[i] = taxPayments[i];
     }
+
     delete[] taxPayments;
     taxPayments = newArr;
     taxCapacity = newCapacity;
@@ -44,8 +42,7 @@ void Entrepreneur::ensureCapacity() {
 
 void Entrepreneur::addTaxPayment(const Date& d, float sum) {
     ensureCapacity();
-    taxPayments[taxCount] = {d, sum};
-    taxCount++;
+    taxPayments[taxCount++] = {d, sum};
 }
 
 void Entrepreneur::printTaxPayments() const {

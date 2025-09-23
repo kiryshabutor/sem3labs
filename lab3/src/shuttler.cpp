@@ -4,8 +4,7 @@
 #include <format>
 using namespace std;
 
-Shuttler::Shuttler() : Person(), Entrepreneur(), Tourist(),
-    shoppingAddresses(nullptr), shopCount(0), shopCapacity(0) {}
+Shuttler::Shuttler() : Person(), Entrepreneur(), Tourist() {}
 
 Shuttler::~Shuttler() {
     delete[] shoppingAddresses;
@@ -13,11 +12,14 @@ Shuttler::~Shuttler() {
 
 void Shuttler::ensureCapacity() {
     if (shopCount < shopCapacity) return;
+
     int newCapacity = (shopCapacity == 0 ? 2 : shopCapacity * 2);
     auto* newArr = new string[newCapacity];
+
     for (int i = 0; i < shopCount; i++) {
         newArr[i] = shoppingAddresses[i];
     }
+
     delete[] shoppingAddresses;
     shoppingAddresses = newArr;
     shopCapacity = newCapacity;
@@ -25,8 +27,7 @@ void Shuttler::ensureCapacity() {
 
 void Shuttler::addShoppingAddress(std::string_view address) {
     ensureCapacity();
-    shoppingAddresses[shopCount] = string(address);
-    shopCount++;
+    shoppingAddresses[shopCount++] = string(address);
 }
 
 void Shuttler::printShoppingAddresses() const {

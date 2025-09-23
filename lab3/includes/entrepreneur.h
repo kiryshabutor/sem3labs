@@ -7,13 +7,13 @@
 
 class Entrepreneur : public virtual Person {
 private:
-    int licenseNumber;
-    std::string registrationAddress;
-    int inn;
+    int licenseNumber{0};
+    std::string registrationAddress{};
+    int inn{0};
 
-    std::pair<Date, float>* taxPayments;
-    int taxCount;
-    int taxCapacity;
+    std::pair<Date, float>* taxPayments{nullptr};
+    int taxCount{0};
+    int taxCapacity{0};
 
     void ensureCapacity();
 

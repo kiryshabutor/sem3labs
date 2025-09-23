@@ -3,14 +3,12 @@
 #include <iostream>
 using namespace std;
 
-Tourist::Tourist() : Person(), passportData(""),
-    borderCrossings(nullptr), borderCount(0), borderCapacity(0) {}
+Tourist::Tourist() : Person() {}
 
 Tourist::Tourist(const string& f, const string& l,
                  const string& m, int y,
                  const string& passport)
-    : Person(f, l, m, y), passportData(passport),
-      borderCrossings(nullptr), borderCount(0), borderCapacity(0) {}
+    : Person(f, l, m, y), passportData(passport) {}
 
 Tourist::~Tourist() {
     delete[] borderCrossings;
@@ -21,11 +19,14 @@ std::string_view Tourist::getPassportData() const { return passportData; }
 
 void Tourist::ensureCapacity() {
     if (borderCount < borderCapacity) return;
+
     int newCapacity = (borderCapacity == 0 ? 2 : borderCapacity * 2);
     auto* newArr = new pair<Date, string>[newCapacity];
+
     for (int i = 0; i < borderCount; i++) {
         newArr[i] = borderCrossings[i];
     }
+
     delete[] borderCrossings;
     borderCrossings = newArr;
     borderCapacity = newCapacity;
@@ -33,8 +34,7 @@ void Tourist::ensureCapacity() {
 
 void Tourist::addBorderCrossing(const Date& d, std::string_view country) {
     ensureCapacity();
-    borderCrossings[borderCount] = {d, string(country)};
-    borderCount++;
+    borderCrossings[borderCount++] = {d, string(country)};
 }
 
 void Tourist::printBorderCrossings() const {
