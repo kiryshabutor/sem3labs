@@ -29,7 +29,7 @@ void Tourist::ensureCapacity() {
 }
 
 void Tourist::addBorderCrossing(const Date& d, std::string_view country) {
-    if (borderCount >= borderCapacity) {
+    while (borderCount >= borderCapacity) {
         ensureCapacity();
     }
     ++borderCount;

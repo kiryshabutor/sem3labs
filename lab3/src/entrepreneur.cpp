@@ -37,7 +37,7 @@ void Entrepreneur::ensureCapacity() {
 }
 
 void Entrepreneur::addTaxPayment(const Date& d, float sum) {
-    if (taxCount >= taxCapacity) {
+    while (taxCount >= taxCapacity) {
         ensureCapacity();
     }
     ++taxCount;

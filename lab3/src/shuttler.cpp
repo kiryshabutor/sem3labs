@@ -22,7 +22,7 @@ void Shuttler::ensureCapacity() {
 }
 
 void Shuttler::addShoppingAddress(std::string_view address) {
-    if (shopCount >= shopCapacity) {
+    while (shopCount >= shopCapacity) {
         ensureCapacity();
     }
     ++shopCount;
