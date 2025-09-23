@@ -26,7 +26,9 @@ void Shuttler::ensureCapacity() {
 }
 
 void Shuttler::addShoppingAddress(std::string_view address) {
-    ensureCapacity();
+    if (shopCount >= shopCapacity) {
+        ensureCapacity();
+    }
     shoppingAddresses[shopCount++] = string(address);
 }
 
