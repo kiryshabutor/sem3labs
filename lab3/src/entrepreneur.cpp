@@ -26,15 +26,11 @@ std::string_view Entrepreneur::getRegistrationAddress() const { return registrat
 int Entrepreneur::getInn() const { return inn; }
 
 void Entrepreneur::ensureCapacity() {
-    if (taxCount < taxCapacity) return;
-
     int newCapacity = (taxCapacity == 0 ? 2 : taxCapacity * 2);
     auto* newArr = new pair<Date, float>[newCapacity];
-
     for (int i = 0; i < taxCount; i++) {
         newArr[i] = taxPayments[i];
     }
-
     delete[] taxPayments;
     taxPayments = newArr;
     taxCapacity = newCapacity;

@@ -11,15 +11,11 @@ Shuttler::~Shuttler() {
 }
 
 void Shuttler::ensureCapacity() {
-    if (shopCount < shopCapacity) return;
-
     int newCapacity = (shopCapacity == 0 ? 2 : shopCapacity * 2);
     auto* newArr = new string[newCapacity];
-
     for (int i = 0; i < shopCount; i++) {
         newArr[i] = shoppingAddresses[i];
     }
-
     delete[] shoppingAddresses;
     shoppingAddresses = newArr;
     shopCapacity = newCapacity;

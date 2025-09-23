@@ -18,15 +18,11 @@ void Tourist::setPassportData(std::string_view p) { passportData = p; }
 std::string_view Tourist::getPassportData() const { return passportData; }
 
 void Tourist::ensureCapacity() {
-    if (borderCount < borderCapacity) return;
-
     int newCapacity = (borderCapacity == 0 ? 2 : borderCapacity * 2);
     auto* newArr = new pair<Date, string>[newCapacity];
-
     for (int i = 0; i < borderCount; i++) {
         newArr[i] = borderCrossings[i];
     }
-
     delete[] borderCrossings;
     borderCrossings = newArr;
     borderCapacity = newCapacity;
