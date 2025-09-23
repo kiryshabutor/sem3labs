@@ -32,8 +32,8 @@ void Tourist::addBorderCrossing(const Date& d, std::string_view country) {
     if (borderCount >= borderCapacity) {
         ensureCapacity();
     }
-    borderCount++;
-    borderCrossings[borderCount] = {d, string(country)};
+    ++borderCount;
+    borderCrossings[borderCount-1] = {d, string(country)};
 }
 
 void Tourist::printBorderCrossings() const {
