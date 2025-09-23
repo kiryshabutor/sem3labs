@@ -2,20 +2,25 @@
 #include "person.h"
 #include "date.h"
 #include <string>
-#include <vector>
 #include <utility>
 #include <string_view>
 
 class Tourist : public virtual Person {
 private:
     std::string passportData;
-    std::vector<std::pair<Date, std::string>> borderCrossings;
+
+    std::pair<Date, std::string>* borderCrossings;
+    int borderCount;
+    int borderCapacity;
+
+    void ensureCapacity();
 
 public:
     Tourist();
     Tourist(const std::string& f, const std::string& l,
             const std::string& m, int y,
             const std::string& passport);
+    ~Tourist();
 
     void setPassportData(std::string_view p);
     std::string_view getPassportData() const;

@@ -4,16 +4,35 @@
 #include <format>
 using namespace std;
 
-Shuttler::Shuttler() : Person(), Entrepreneur(), Tourist() {}
+Shuttler::Shuttler() : Person(), Entrepreneur(), Tourist(),
+    shoppingAddresses(nullptr), shopCount(0), shopCapacity(0) {}
+
+Shuttler::~Shuttler() {
+    delete[] shoppingAddresses;
+}
+
+void Shuttler::ensureCapacity() {
+    if (shopCount < shopCapacity) return;
+    int newCapacity = (shopCapacity == 0 ? 2 : shopCapacity * 2);
+    auto* newArr = new string[newCapacity];
+    for (int i = 0; i < shopCount; i++) {
+        newArr[i] = shoppingAddresses[i];
+    }
+    delete[] shoppingAddresses;
+    shoppingAddresses = newArr;
+    shopCapacity = newCapacity;
+}
 
 void Shuttler::addShoppingAddress(std::string_view address) {
-    shoppingAddresses.emplace_back(address);
+    ensureCapacity();
+    shoppingAddresses[shopCount] = string(address);
+    shopCount++;
 }
 
 void Shuttler::printShoppingAddresses() const {
     cout << "Shopping addresses:\n";
-    for (const auto& addr : shoppingAddresses) {
-        cout << "- " << addr << endl;
+    for (int i = 0; i < shopCount; i++) {
+        cout << "- " << shoppingAddresses[i] << endl;
     }
 }
 
@@ -23,7 +42,7 @@ void Shuttler::inputData() {
     int n = safePositiveInputInt("How many shopping addresses? ");
     for (int i = 0; i < n; i++) {
         string addr = safeInputLine(std::format("Address {}: ", i + 1));
-        shoppingAddresses.emplace_back(addr);
+        addShoppingAddress(addr);
     }
 }
 

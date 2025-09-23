@@ -3,13 +3,23 @@
 #include <iostream>
 using namespace std;
 
-Entrepreneur::Entrepreneur() : Person(), licenseNumber(0), registrationAddress(""), inn(0) {
-}
+Entrepreneur::Entrepreneur()
+    : Person(), licenseNumber(0), registrationAddress(""), inn(0),
+      taxPayments(nullptr), taxCount(0), taxCapacity(0) {}
 
 Entrepreneur::Entrepreneur(const string &f, const string &l,
                            const string &m, int y,
                            int lic, const string &addr, int i)
-    : Person(f, l, m, y), licenseNumber(lic), registrationAddress(addr), inn(i) {
+    : Person(f, l, m, y),
+      licenseNumber(lic),
+      registrationAddress(addr),
+      inn(i),
+      taxPayments(nullptr),
+      taxCount(0),
+      taxCapacity(0) {}
+
+Entrepreneur::~Entrepreneur() {
+    delete[] taxPayments;
 }
 
 void Entrepreneur::setLicenseNumber(int lic) { licenseNumber = lic; }
@@ -20,15 +30,29 @@ int Entrepreneur::getLicenseNumber() const { return licenseNumber; }
 std::string_view Entrepreneur::getRegistrationAddress() const { return registrationAddress; }
 int Entrepreneur::getInn() const { return inn; }
 
-void Entrepreneur::addTaxPayment(const Date &d, float sum) {
-    taxPayments.emplace_back(d, sum);
+void Entrepreneur::ensureCapacity() {
+    if (taxCount < taxCapacity) return;
+    int newCapacity = (taxCapacity == 0 ? 2 : taxCapacity * 2);
+    auto* newArr = new pair<Date, float>[newCapacity];
+    for (int i = 0; i < taxCount; i++) {
+        newArr[i] = taxPayments[i];
+    }
+    delete[] taxPayments;
+    taxPayments = newArr;
+    taxCapacity = newCapacity;
+}
+
+void Entrepreneur::addTaxPayment(const Date& d, float sum) {
+    ensureCapacity();
+    taxPayments[taxCount] = {d, sum};
+    taxCount++;
 }
 
 void Entrepreneur::printTaxPayments() const {
     cout << "Tax payments:\n";
-    for (const auto &[date, sum]: taxPayments) {
-        date.printDate();
-        cout << " - " << sum << endl;
+    for (int i = 0; i < taxCount; i++) {
+        taxPayments[i].first.printDate();
+        cout << " - " << taxPayments[i].second << endl;
     }
 }
 
@@ -42,6 +66,6 @@ void Entrepreneur::inputData() {
 void Entrepreneur::printInfo() const {
     Person::printInfo();
     cout << "License: " << licenseNumber
-            << ", INN: " << inn
-            << ", Address: " << registrationAddress << endl;
+         << ", INN: " << inn
+         << ", Address: " << registrationAddress << endl;
 }

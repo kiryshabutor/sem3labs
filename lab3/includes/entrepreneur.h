@@ -2,7 +2,6 @@
 #include "person.h"
 #include "date.h"
 #include <string>
-#include <vector>
 #include <utility>
 #include <string_view>
 
@@ -11,13 +10,19 @@ private:
     int licenseNumber;
     std::string registrationAddress;
     int inn;
-    std::vector<std::pair<Date, float>> taxPayments;
+
+    std::pair<Date, float>* taxPayments;
+    int taxCount;
+    int taxCapacity;
+
+    void ensureCapacity();
 
 public:
     Entrepreneur();
     Entrepreneur(const std::string& f, const std::string& l,
                  const std::string& m, int y,
                  int lic, const std::string& addr, int i);
+    ~Entrepreneur();
 
     void setLicenseNumber(int lic);
     void setRegistrationAddress(std::string_view addr);

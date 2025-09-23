@@ -3,25 +3,45 @@
 #include <iostream>
 using namespace std;
 
-Tourist::Tourist() : Person(), passportData("") {}
+Tourist::Tourist() : Person(), passportData(""),
+    borderCrossings(nullptr), borderCount(0), borderCapacity(0) {}
 
 Tourist::Tourist(const string& f, const string& l,
                  const string& m, int y,
                  const string& passport)
-    : Person(f, l, m, y), passportData(passport) {}
+    : Person(f, l, m, y), passportData(passport),
+      borderCrossings(nullptr), borderCount(0), borderCapacity(0) {}
+
+Tourist::~Tourist() {
+    delete[] borderCrossings;
+}
 
 void Tourist::setPassportData(std::string_view p) { passportData = p; }
 std::string_view Tourist::getPassportData() const { return passportData; }
 
+void Tourist::ensureCapacity() {
+    if (borderCount < borderCapacity) return;
+    int newCapacity = (borderCapacity == 0 ? 2 : borderCapacity * 2);
+    auto* newArr = new pair<Date, string>[newCapacity];
+    for (int i = 0; i < borderCount; i++) {
+        newArr[i] = borderCrossings[i];
+    }
+    delete[] borderCrossings;
+    borderCrossings = newArr;
+    borderCapacity = newCapacity;
+}
+
 void Tourist::addBorderCrossing(const Date& d, std::string_view country) {
-    borderCrossings.emplace_back(d, std::string(country));
+    ensureCapacity();
+    borderCrossings[borderCount] = {d, string(country)};
+    borderCount++;
 }
 
 void Tourist::printBorderCrossings() const {
     cout << "Border crossings:\n";
-    for (const auto& [date, country] : borderCrossings) {
-        date.printDate();
-        cout << " - " << country << endl;
+    for (int i = 0; i < borderCount; i++) {
+        borderCrossings[i].first.printDate();
+        cout << " - " << borderCrossings[i].second << endl;
     }
 }
 
