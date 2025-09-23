@@ -62,7 +62,7 @@ void App::menuPerson() const {
 }
 
 void App::menuEntrepreneur() const {
-    auto* e = dynamic_cast<Entrepreneur*>(current.get());
+    auto *e = dynamic_cast<Entrepreneur *>(current.get());
     if (!e) return;
 
     int choice;
@@ -96,7 +96,7 @@ void App::menuEntrepreneur() const {
 }
 
 void App::menuTourist() const {
-    auto* t = dynamic_cast<Tourist*>(current.get());
+    auto *t = dynamic_cast<Tourist *>(current.get());
     if (!t) return;
 
     int choice;
@@ -130,7 +130,7 @@ void App::menuTourist() const {
 }
 
 void App::menuShuttler() const {
-    auto* s = dynamic_cast<Shuttler*>(current.get());
+    auto *s = dynamic_cast<Shuttler *>(current.get());
     if (!s) return;
 
     int choice;
