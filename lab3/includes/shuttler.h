@@ -16,6 +16,11 @@ public:
     Shuttler();
     ~Shuttler();
 
+    Shuttler(const Shuttler& other);
+    Shuttler& operator=(const Shuttler& other);
+    Shuttler(Shuttler&& other) noexcept;
+    Shuttler& operator=(Shuttler&& other) noexcept;
+
     void addShoppingAddress(std::string_view address);
     void printShoppingAddresses() const;
 

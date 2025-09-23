@@ -24,6 +24,11 @@ public:
                  int lic, const std::string& addr, int i);
     ~Entrepreneur();
 
+    Entrepreneur(const Entrepreneur& other);
+    Entrepreneur& operator=(const Entrepreneur& other);
+    Entrepreneur(Entrepreneur&& other) noexcept;
+    Entrepreneur& operator=(Entrepreneur&& other) noexcept;
+
     void setLicenseNumber(int lic);
     void setRegistrationAddress(std::string_view addr);
     void setInn(int i);

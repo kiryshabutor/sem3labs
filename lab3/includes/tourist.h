@@ -22,6 +22,11 @@ public:
             const std::string& passport);
     ~Tourist();
 
+    Tourist(const Tourist& other);
+    Tourist& operator=(const Tourist& other);
+    Tourist(Tourist&& other) noexcept;
+    Tourist& operator=(Tourist&& other) noexcept;
+
     void setPassportData(std::string_view p);
     std::string_view getPassportData() const;
 

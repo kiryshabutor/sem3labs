@@ -10,6 +10,64 @@ Shuttler::~Shuttler() {
     delete[] shoppingAddresses;
 }
 
+Shuttler::Shuttler(const Shuttler& other)
+    : Person(other),
+      Entrepreneur(other),
+      Tourist(other),
+      shopCount(other.shopCount),
+      shopCapacity(other.shopCapacity) {
+    if (shopCapacity > 0) {
+        shoppingAddresses = new string[shopCapacity];
+        for (int i = 0; i < shopCount; i++) {
+            shoppingAddresses[i] = other.shoppingAddresses[i];
+        }
+    }
+}
+
+Shuttler& Shuttler::operator=(const Shuttler& other) {
+    if (this == &other) return *this;
+    Entrepreneur::operator=(other);
+    Tourist::operator=(other);
+    delete[] shoppingAddresses;
+    shopCount = other.shopCount;
+    shopCapacity = other.shopCapacity;
+    if (shopCapacity > 0) {
+        shoppingAddresses = new string[shopCapacity];
+        for (int i = 0; i < shopCount; i++) {
+            shoppingAddresses[i] = other.shoppingAddresses[i];
+        }
+    } else {
+        shoppingAddresses = nullptr;
+    }
+    return *this;
+}
+
+Shuttler::Shuttler(Shuttler&& other) noexcept
+    : Person(std::move(other)),
+      Entrepreneur(std::move(other)),
+      Tourist(std::move(other)),
+      shoppingAddresses(other.shoppingAddresses),
+      shopCount(other.shopCount),
+      shopCapacity(other.shopCapacity) {
+    other.shoppingAddresses = nullptr;
+    other.shopCount = 0;
+    other.shopCapacity = 0;
+}
+
+Shuttler& Shuttler::operator=(Shuttler&& other) noexcept {
+    if (this == &other) return *this;
+    Entrepreneur::operator=(std::move(other));
+    Tourist::operator=(std::move(other));
+    delete[] shoppingAddresses;
+    shoppingAddresses = other.shoppingAddresses;
+    shopCount = other.shopCount;
+    shopCapacity = other.shopCapacity;
+    other.shoppingAddresses = nullptr;
+    other.shopCount = 0;
+    other.shopCapacity = 0;
+    return *this;
+}
+
 void Shuttler::ensureCapacity() {
     int newCapacity = (shopCapacity == 0 ? 2 : shopCapacity * 2);
     auto* newArr = new string[newCapacity];
@@ -25,7 +83,7 @@ void Shuttler::addShoppingAddress(std::string_view address) {
     while (shopCount >= shopCapacity) {
         ensureCapacity();
     }
-    ++shopCount;
+    shopCount++;
     shoppingAddresses[shopCount-1] = string(address);
 }
 

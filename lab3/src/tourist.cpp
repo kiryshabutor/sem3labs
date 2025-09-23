@@ -14,6 +14,62 @@ Tourist::~Tourist() {
     delete[] borderCrossings;
 }
 
+Tourist::Tourist(const Tourist& other)
+    : Person(other),
+      passportData(other.passportData),
+      borderCount(other.borderCount),
+      borderCapacity(other.borderCapacity) {
+    if (borderCapacity > 0) {
+        borderCrossings = new pair<Date, string>[borderCapacity];
+        for (int i = 0; i < borderCount; i++) {
+            borderCrossings[i] = other.borderCrossings[i];
+        }
+    }
+}
+
+Tourist& Tourist::operator=(const Tourist& other) {
+    if (this == &other) return *this;
+    Person::operator=(other);
+    passportData = other.passportData;
+    delete[] borderCrossings;
+    borderCount = other.borderCount;
+    borderCapacity = other.borderCapacity;
+    if (borderCapacity > 0) {
+        borderCrossings = new pair<Date, string>[borderCapacity];
+        for (int i = 0; i < borderCount; i++) {
+            borderCrossings[i] = other.borderCrossings[i];
+        }
+    } else {
+        borderCrossings = nullptr;
+    }
+    return *this;
+}
+
+Tourist::Tourist(Tourist&& other) noexcept
+    : Person(std::move(other)),
+      passportData(std::move(other.passportData)),
+      borderCrossings(other.borderCrossings),
+      borderCount(other.borderCount),
+      borderCapacity(other.borderCapacity) {
+    other.borderCrossings = nullptr;
+    other.borderCount = 0;
+    other.borderCapacity = 0;
+}
+
+Tourist& Tourist::operator=(Tourist&& other) noexcept {
+    if (this == &other) return *this;
+    Person::operator=(std::move(other));
+    passportData = std::move(other.passportData);
+    delete[] borderCrossings;
+    borderCrossings = other.borderCrossings;
+    borderCount = other.borderCount;
+    borderCapacity = other.borderCapacity;
+    other.borderCrossings = nullptr;
+    other.borderCount = 0;
+    other.borderCapacity = 0;
+    return *this;
+}
+
 void Tourist::setPassportData(std::string_view p) { passportData = p; }
 std::string_view Tourist::getPassportData() const { return passportData; }
 
@@ -32,7 +88,7 @@ void Tourist::addBorderCrossing(const Date& d, std::string_view country) {
     while (borderCount >= borderCapacity) {
         ensureCapacity();
     }
-    ++borderCount;
+    borderCount++;
     borderCrossings[borderCount-1] = {d, string(country)};
 }
 
