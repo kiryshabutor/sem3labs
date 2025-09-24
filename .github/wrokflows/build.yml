@@ -1,0 +1,90 @@
+name: Build & SonarCloud
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  build-and-scan:
+    runs-on: ubuntu-latest
+    env:
+      SONAR_ORG: kiryshabutor
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Build Wrapper
+        uses: SonarSource/sonarqube-scan-action/install-build-wrapper@v4
+
+      - name: Build lab1
+        run: |
+          rm -rf lab1/build
+          mkdir lab1/build
+          cmake -S lab1 -B lab1/build
+          build-wrapper-linux-x86-64 --out-dir lab1/build_wrapper cmake --build lab1/build --config Release
+
+      - name: Build lab2
+        run: |
+          rm -rf lab2/build
+          mkdir lab2/build
+          cmake -S lab2 -B lab2/build
+          build-wrapper-linux-x86-64 --out-dir lab2/build_wrapper cmake --build lab2/build --config Release
+
+      - name: Build lab3
+        run: |
+          rm -rf lab3/build
+          mkdir lab3/build
+          cmake -S lab3 -B lab3/build
+          build-wrapper-linux-x86-64 --out-dir lab3/build_wrapper cmake --build lab3/build --config Release
+
+      - name: SonarCloud scan lab1
+        uses: SonarSource/sonarqube-scan-action@v4
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.projectKey=kiryshabutor_cpp-lab1
+            -Dsonar.organization=${{ env.SONAR_ORG }}
+            -Dsonar.sources=lab1
+            -Dsonar.cfamily.compile-commands=lab1/build_wrapper/compile_commands.json
+            -Dsonar.coverage.exclusions=**
+            -Dsonar.cfamily.skipCoverage=true
+            -Dsonar.issue.ignore.multicriteria.e1.ruleKey=cxx:S5025
+            -Dsonar.issue.ignore.multicriteria.e1.resourceKey=**/*.cpp
+
+      - name: SonarCloud scan lab2
+        uses: SonarSource/sonarqube-scan-action@v4
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.projectKey=kiryshabutor_cpp-lab2
+            -Dsonar.organization=${{ env.SONAR_ORG }}
+            -Dsonar.sources=lab2
+            -Dsonar.cfamily.compile-commands=lab2/build_wrapper/compile_commands.json
+            -Dsonar.coverage.exclusions=**
+            -Dsonar.cfamily.skipCoverage=true
+            -Dsonar.issue.ignore.multicriteria.e1.ruleKey=cxx:S5025
+            -Dsonar.issue.ignore.multicriteria.e1.resourceKey=**/*.cpp
+
+      - name: SonarCloud scan lab3
+        uses: SonarSource/sonarqube-scan-action@v4
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.projectKey=kiryshabutor_cpp-lab3
+            -Dsonar.organization=${{ env.SONAR_ORG }}
+            -Dsonar.sources=lab3
+            -Dsonar.cfamily.compile-commands=lab3/build_wrapper/compile_commands.json
+            -Dsonar.coverage.exclusions=**
+            -Dsonar.cfamily.skipCoverage=true
+            -Dsonar.issue.ignore.multicriteria.e1.ruleKey=cxx:S5025
+            -Dsonar.issue.ignore.multicriteria.e1.resourceKey=**/*.cpp
