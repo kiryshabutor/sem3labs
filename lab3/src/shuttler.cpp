@@ -83,7 +83,7 @@ void Shuttler::addShoppingAddress(std::string_view address) {
     while (shopCount >= shopCapacity) {
         ensureCapacity();
     }
-    ++shopCount;
+    shopCount++;
     shoppingAddresses[shopCount-1] = string(address);
 }
 
