@@ -100,6 +100,7 @@ void Entrepreneur::ensureCapacity() {
     taxCapacity = newCapacity;
 }
 
+
 void Entrepreneur::addTaxPayment(const Date& d, float sum) {
     while (taxCount >= taxCapacity) {
         ensureCapacity();
