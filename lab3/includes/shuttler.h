@@ -14,7 +14,7 @@ private:
 
 public:
     Shuttler();
-    ~Shuttler();
+    ~Shuttler() override;
 
     Shuttler(const Shuttler& other);
     Shuttler& operator=(const Shuttler& other);

@@ -22,7 +22,7 @@ public:
     Entrepreneur(const std::string& f, const std::string& l,
                  const std::string& m, int y,
                  int lic, const std::string& addr, int i);
-    ~Entrepreneur();
+    ~Entrepreneur() override;
 
     Entrepreneur(const Entrepreneur& other);
     Entrepreneur& operator=(const Entrepreneur& other);

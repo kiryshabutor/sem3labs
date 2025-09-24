@@ -20,7 +20,7 @@ public:
     Tourist(const std::string& f, const std::string& l,
             const std::string& m, int y,
             const std::string& passport);
-    ~Tourist();
+    ~Tourist() override;
 
     Tourist(const Tourist& other);
     Tourist& operator=(const Tourist& other);
