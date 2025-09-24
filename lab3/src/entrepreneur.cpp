@@ -104,7 +104,7 @@ void Entrepreneur::addTaxPayment(const Date& d, float sum) {
     while (taxCount >= taxCapacity) {
         ensureCapacity();
     }
-    taxCount++;
+    ++taxCount;
     taxPayments[taxCount-1] = {d, sum};
 }
 
