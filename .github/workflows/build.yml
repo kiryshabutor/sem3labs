@@ -21,7 +21,7 @@ jobs:
           fetch-depth: 0
 
       - name: Install Build Wrapper
-        uses: SonarSource/sonarqube-scan-action/install-build-wrapper@v4
+        uses: SonarSource/sonarqube-scan-action/install-build-wrapper@ff001fdc541b7f6b1c77b50b8ff103bafe7f8611
 
       - name: Build lab1
         run: |
@@ -45,7 +45,7 @@ jobs:
           build-wrapper-linux-x86-64 --out-dir lab3/build_wrapper cmake --build lab3/build --config Release
 
       - name: SonarCloud scan lab1
-        uses: SonarSource/sonarqube-scan-action@v4
+        uses: SonarSource/sonarqube-scan-action@ff001fdc541b7f6b1c77b50b8ff103bafe7f8611
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
@@ -60,7 +60,7 @@ jobs:
             -Dsonar.issue.ignore.multicriteria.e1.resourceKey=**/*.cpp
 
       - name: SonarCloud scan lab2
-        uses: SonarSource/sonarqube-scan-action@v4
+        uses: SonarSource/sonarqube-scan-action@ff001fdc541b7f6b1c77b50b8ff103bafe7f8611
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
@@ -75,7 +75,7 @@ jobs:
             -Dsonar.issue.ignore.multicriteria.e1.resourceKey=**/*.cpp
 
       - name: SonarCloud scan lab3
-        uses: SonarSource/sonarqube-scan-action@v4
+        uses: SonarSource/sonarqube-scan-action@ff001fdc541b7f6b1c77b50b8ff103bafe7f8611
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
