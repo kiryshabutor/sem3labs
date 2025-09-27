@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.24)
+cmake_minimum_required(VERSION 3.31.6)
 project(lab2)
 
 set(CMAKE_CXX_STANDARD 20)
