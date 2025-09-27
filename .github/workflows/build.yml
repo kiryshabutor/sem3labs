@@ -60,6 +60,7 @@ jobs:
             -Dsonar.cfamily.compile-commands=lab1/build_wrapper/compile_commands.json
             -Dsonar.coverage.exclusions=**
             -Dsonar.cfamily.skipCoverage=true
+            -Dsonar.branch.name=main
 
       - name: SonarCloud scan lab2
         uses: SonarSource/sonarqube-scan-action@v4
@@ -73,6 +74,7 @@ jobs:
             -Dsonar.cfamily.compile-commands=lab2/build_wrapper/compile_commands.json
             -Dsonar.coverage.exclusions=**
             -Dsonar.cfamily.skipCoverage=true
+            -Dsonar.branch.name=main
 
       - name: SonarCloud scan lab3
         uses: SonarSource/sonarqube-scan-action@v4
@@ -86,3 +88,4 @@ jobs:
             -Dsonar.cfamily.compile-commands=lab3/build_wrapper/compile_commands.json
             -Dsonar.coverage.exclusions=**
             -Dsonar.cfamily.skipCoverage=true
+            -Dsonar.branch.name=main
