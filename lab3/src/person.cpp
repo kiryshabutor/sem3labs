@@ -12,9 +12,9 @@ Person::Person(const string& f, const string& l,
                const string& m, int y)
     : firstName(f), lastName(l), middleName(m), birthYear(y) {}
 
-string Person::getFirstName() const { return firstName; }
-string Person::getLastName() const { return lastName; }
-string Person::getMiddleName() const { return middleName; }
+std::string_view Person::getFirstName() const { return firstName; }
+std::string_view Person::getLastName() const { return lastName; }
+std::string_view Person::getMiddleName() const { return middleName; }
 int Person::getBirthYear() const { return birthYear; }
 
 void Person::setFirstName(std::string_view f) { firstName = f; }
