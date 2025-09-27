@@ -109,6 +109,7 @@ void Entrepreneur::addTaxPayment(const Date& d, float sum) {
     taxPayments[taxCount-1] = {d, sum};
 }
 
+
 void Entrepreneur::printTaxPayments() const {
     cout << "Tax payments:\n";
     for (int i = 0; i < taxCount; i++) {
