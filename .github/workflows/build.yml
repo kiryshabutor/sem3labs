@@ -22,7 +22,7 @@ jobs:
           fetch-depth: 0
 
       - name: Install Build Wrapper
-        uses: SonarSource/sonarqube-scan-action/install-build-wrapper@v4.2.2
+        uses: SonarSource/sonarqube-scan-action/install-build-wrapper@v4
 
       - name: Build lab1
         run: |
@@ -49,7 +49,7 @@ jobs:
         shell: pwsh
 
       - name: SonarCloud scan lab1
-        uses: SonarSource/sonarqube-scan-action@689fb39f4d05c082d1c47c91756471a1fd3566f7
+        uses: SonarSource/sonarqube-scan-action@v4
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
@@ -62,7 +62,7 @@ jobs:
             -Dsonar.cfamily.skipCoverage=true
 
       - name: SonarCloud scan lab2
-        uses: SonarSource/sonarqube-scan-action@689fb39f4d05c082d1c47c91756471a1fd3566f7
+        uses: SonarSource/sonarqube-scan-action@v4
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
@@ -75,7 +75,7 @@ jobs:
             -Dsonar.cfamily.skipCoverage=true
 
       - name: SonarCloud scan lab3
-        uses: SonarSource/sonarqube-scan-action@689fb39f4d05c082d1c47c91756471a1fd3566f7
+        uses: SonarSource/sonarqube-scan-action@v4
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
