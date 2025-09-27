@@ -62,7 +62,7 @@ void Date::getCurrentDate() {
 #ifdef _WIN32
     localtime_s(&localTime, &timeNow);
 #else
-    localtime_r(&timeNow, &timeNow);
+    localtime_r(&timeNow, &localTime);
 #endif
 
     currentDay = localTime.tm_mday;
