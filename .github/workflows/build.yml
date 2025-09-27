@@ -21,7 +21,7 @@ jobs:
           fetch-depth: 0
 
       - name: Install Build Wrapper
-        uses: SonarSource/sonarqube-scan-action/install-build-wrapper@ff001fdc541b7f6b1c77b50b8ff103bafe7f8611
+        uses: SonarSource/sonarqube-scan-action/install-build-wrapper@v4
 
       - name: Build lab1
         run: |
