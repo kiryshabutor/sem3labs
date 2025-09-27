@@ -9,10 +9,11 @@ on:
 
 jobs:
   build-and-scan:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     env:
       SONAR_ORG: kiryshabutor
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      SONAR_HOST_URL: https://sonarcloud.io
 
     steps:
       - name: Checkout repository
@@ -21,31 +22,34 @@ jobs:
           fetch-depth: 0
 
       - name: Install Build Wrapper
-        uses: SonarSource/sonarqube-scan-action/install-build-wrapper@v4.2.2
+        uses: SonarSource/sonarqube-scan-action/install-build-wrapper@689fb39f4d05c082d1c47c91756471a1fd3566f7
 
       - name: Build lab1
         run: |
-          rm -rf lab1/build
+          if (Test-Path lab1/build) { Remove-Item -Recurse -Force lab1/build }
           mkdir lab1/build
           cmake -S lab1 -B lab1/build
-          build-wrapper-linux-x86-64 --out-dir lab1/build_wrapper cmake --build lab1/build --config Release
+          build-wrapper-win-x86-64.exe --out-dir lab1/build_wrapper cmake --build lab1/build --config Release
+        shell: pwsh
 
       - name: Build lab2
         run: |
-          rm -rf lab2/build
+          if (Test-Path lab2/build) { Remove-Item -Recurse -Force lab2/build }
           mkdir lab2/build
           cmake -S lab2 -B lab2/build
-          build-wrapper-linux-x86-64 --out-dir lab2/build_wrapper cmake --build lab2/build --config Release
+          build-wrapper-win-x86-64.exe --out-dir lab2/build_wrapper cmake --build lab2/build --config Release
+        shell: pwsh
 
       - name: Build lab3
         run: |
-          rm -rf lab3/build
+          if (Test-Path lab3/build) { Remove-Item -Recurse -Force lab3/build }
           mkdir lab3/build
           cmake -S lab3 -B lab3/build
-          build-wrapper-linux-x86-64 --out-dir lab3/build_wrapper cmake --build lab3/build --config Release
+          build-wrapper-win-x86-64.exe --out-dir lab3/build_wrapper cmake --build lab3/build --config Release
+        shell: pwsh
 
       - name: SonarCloud scan lab1
-        uses: SonarSource/sonarqube-scan-action@v4.2.2
+        uses: SonarSource/sonarqube-scan-action@689fb39f4d05c082d1c47c91756471a1fd3566f7
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
@@ -56,11 +60,9 @@ jobs:
             -Dsonar.cfamily.compile-commands=lab1/build_wrapper/compile_commands.json
             -Dsonar.coverage.exclusions=**
             -Dsonar.cfamily.skipCoverage=true
-            -Dsonar.issue.ignore.multicriteria.e1.ruleKey=cxx:S5025
-            -Dsonar.issue.ignore.multicriteria.e1.resourceKey=**/*.cpp
 
       - name: SonarCloud scan lab2
-        uses: SonarSource/sonarqube-scan-action@v4.2.2
+        uses: SonarSource/sonarqube-scan-action@689fb39f4d05c082d1c47c91756471a1fd3566f7
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
@@ -71,11 +73,9 @@ jobs:
             -Dsonar.cfamily.compile-commands=lab2/build_wrapper/compile_commands.json
             -Dsonar.coverage.exclusions=**
             -Dsonar.cfamily.skipCoverage=true
-            -Dsonar.issue.ignore.multicriteria.e1.ruleKey=cxx:S5025
-            -Dsonar.issue.ignore.multicriteria.e1.resourceKey=**/*.cpp
 
       - name: SonarCloud scan lab3
-        uses: SonarSource/sonarqube-scan-action@v4.2.2
+        uses: SonarSource/sonarqube-scan-action@689fb39f4d05c082d1c47c91756471a1fd3566f7
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
@@ -86,5 +86,3 @@ jobs:
             -Dsonar.cfamily.compile-commands=lab3/build_wrapper/compile_commands.json
             -Dsonar.coverage.exclusions=**
             -Dsonar.cfamily.skipCoverage=true
-            -Dsonar.issue.ignore.multicriteria.e1.ruleKey=cxx:S5025
-            -Dsonar.issue.ignore.multicriteria.e1.resourceKey=**/*.cpp
