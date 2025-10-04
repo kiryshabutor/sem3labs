@@ -16,7 +16,7 @@ double SalariedEmployee::calculateSalary() const { return monthlySalary; }
 void SalariedEmployee::inputData() {
     setFirstName(safeInputWord("Enter first name: "));
     setLastName(safeInputWord("Enter last name: "));
-    monthlySalary = safePositiveInputFloat("Enter monthly salary: ");
+    monthlySalary = safePositiveInputDouble("Enter monthly salary: ");
 }
 
 void SalariedEmployee::printInfo() const {

@@ -8,6 +8,9 @@
 
 using namespace std;
 
+const int COMMISSION_MIN = 10;
+const int COMMISSION_MAX = 100;
+
 inline void trimInplace(string &s) {
     while (!s.empty() && isspace(static_cast<unsigned char>(s.front())))
         s.erase(s.begin());
@@ -53,8 +56,7 @@ int safePositiveInputInt(const string &prompt) {
     }
 }
 
-
-float safeInputFloat(const string &prompt) {
+double safeInputDouble(const string &prompt) {
     static const regex pat(R"(^[+-]?\d+([.,]\d+)?$)");
 
     while (true) {
@@ -66,7 +68,7 @@ float safeInputFloat(const string &prompt) {
             stringstream ss(input);
             ss.imbue(locale::classic());
 
-            float value;
+            double value;
             ss >> value;
 
             if (ss && ss.eof()) {
@@ -78,12 +80,22 @@ float safeInputFloat(const string &prompt) {
     }
 }
 
-
-float safePositiveInputFloat(const string &prompt) {
+double safePositiveInputDouble(const string &prompt) {
     while (true) {
-        float val = safeInputFloat(prompt);
-        if (val > 0.0f) return val;
+        double val = safeInputDouble(prompt);
+        if (val > 0.0) return val;
         cout << "Must be positive.\n";
+    }
+}
+
+double safeInputCommission(const string& prompt) {
+    while (true) {
+        double val = safeInputDouble(prompt);
+        if (val >= COMMISSION_MIN && val <= COMMISSION_MAX) {
+            return val / 100.0;
+        }
+        cout << "Commission must be between " << COMMISSION_MIN
+             << " and " << COMMISSION_MAX << " percent.\n";
     }
 }
 

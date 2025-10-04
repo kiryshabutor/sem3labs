@@ -18,8 +18,8 @@ double CommissionEmployee::calculateSalary() const { return salesAmount * commis
 void CommissionEmployee::inputData() {
     setFirstName(safeInputWord("Enter first name: "));
     setLastName(safeInputWord("Enter last name: "));
-    salesAmount = safePositiveInputFloat("Enter sales amount: ");
-    commissionRate = safePositiveInputFloat("Enter commission rate (e.g. 0.1 for 10%): ");
+    salesAmount = safePositiveInputDouble("Enter sales amount: ");
+    commissionRate = safeInputCommission("Enter commission rate: ");
 }
 
 void CommissionEmployee::printInfo() const {

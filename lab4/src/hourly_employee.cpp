@@ -18,7 +18,7 @@ double HourlyEmployee::calculateSalary() const { return hourlyRate * static_cast
 void HourlyEmployee::inputData() {
     setFirstName(safeInputWord("Enter first name: "));
     setLastName(safeInputWord("Enter last name: "));
-    hourlyRate = safePositiveInputFloat("Enter hourly rate: ");
+    hourlyRate = safePositiveInputDouble("Enter hourly rate: ");
     hoursWorked = safePositiveInputInt("Enter hours worked: ");
 }
 
