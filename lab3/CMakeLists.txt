@@ -18,3 +18,4 @@ add_executable(lab3 main.cpp
         src/input_utils.cpp
         src/app.cpp
         includes/app.h)
+
