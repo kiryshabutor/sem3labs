@@ -22,7 +22,7 @@ jobs:
           fetch-depth: 0
 
       - name: Install Build Wrapper
-        uses: SonarSource/sonarqube-scan-action/install-build-wrapper@v4
+        uses: SonarSource/sonarqube-scan-action/install-build-wrapper@v4.2.2
 
       - name: Build lab1
         run: |
@@ -48,8 +48,16 @@ jobs:
           build-wrapper-win-x86-64.exe --out-dir lab3/build_wrapper cmake --build lab3/build --config Release
         shell: pwsh
 
+      - name: Build lab4
+        run: |
+          if (Test-Path lab4/build) { Remove-Item -Recurse -Force lab4/build }
+          mkdir lab4/build
+          cmake -S lab4 -B lab4/build
+          build-wrapper-win-x86-64.exe --out-dir lab4/build_wrapper cmake --build lab4/build --config Release
+        shell: pwsh
+
       - name: SonarCloud scan lab1
-        uses: SonarSource/sonarqube-scan-action@v4
+        uses: SonarSource/sonarqube-scan-action@689fb39f4d05c082d1c47c91756471a1fd3566f7
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
@@ -60,12 +68,9 @@ jobs:
             -Dsonar.cfamily.compile-commands=lab1/build_wrapper/compile_commands.json
             -Dsonar.coverage.exclusions=**
             -Dsonar.cfamily.skipCoverage=true
-            -Dsonar.branch.name=main
-            -Dsonar.issue.ignore.multicriteria.e1.ruleKey=cxx:S5025
-            -Dsonar.issue.ignore.multicriteria.e1.resourceKey=**/*
 
       - name: SonarCloud scan lab2
-        uses: SonarSource/sonarqube-scan-action@v4
+        uses: SonarSource/sonarqube-scan-action@689fb39f4d05c082d1c47c91756471a1fd3566f7
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
@@ -76,12 +81,9 @@ jobs:
             -Dsonar.cfamily.compile-commands=lab2/build_wrapper/compile_commands.json
             -Dsonar.coverage.exclusions=**
             -Dsonar.cfamily.skipCoverage=true
-            -Dsonar.branch.name=main
-            -Dsonar.issue.ignore.multicriteria.e1.ruleKey=cxx:S5025
-            -Dsonar.issue.ignore.multicriteria.e1.resourceKey=**/*
 
       - name: SonarCloud scan lab3
-        uses: SonarSource/sonarqube-scan-action@v4
+        uses: SonarSource/sonarqube-scan-action@689fb39f4d05c082d1c47c91756471a1fd3566f7
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
@@ -92,6 +94,16 @@ jobs:
             -Dsonar.cfamily.compile-commands=lab3/build_wrapper/compile_commands.json
             -Dsonar.coverage.exclusions=**
             -Dsonar.cfamily.skipCoverage=true
-            -Dsonar.branch.name=main
-            -Dsonar.issue.ignore.multicriteria.e1.ruleKey=cxx:S5025
-            -Dsonar.issue.ignore.multicriteria.e1.resourceKey=**/*
+
+      - name: SonarCloud scan lab4
+        uses: SonarSource/sonarqube-scan-action@689fb39f4d05c082d1c47c91756471a1fd3566f7
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.projectKey=kiryshabutor_cpp-lab4
+            -Dsonar.organization=${{ env.SONAR_ORG }}
+            -Dsonar.sources=lab4
+            -Dsonar.cfamily.compile-commands=lab4/build_wrapper/compile_commands.json
+            -Dsonar.coverage.exclusions=**
+            -Dsonar.cfamily.skipCoverage=true
