@@ -22,6 +22,7 @@ void HourlyEmployee::inputData() {
     hoursWorked = safePositiveInputInt("Enter hours worked: ");
 }
 
+
 void HourlyEmployee::printInfo() const {
     cout << "Hourly Employee: " << getFirstName() << " " << getLastName()
          << ", Rate: " << hourlyRate
