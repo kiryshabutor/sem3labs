@@ -8,14 +8,14 @@
 
 using namespace std;
 
-inline void trimInplace(string& s) {
+inline void trimInplace(string &s) {
     while (!s.empty() && isspace(static_cast<unsigned char>(s.front())))
         s.erase(s.begin());
     while (!s.empty() && isspace(static_cast<unsigned char>(s.back())))
         s.pop_back();
 }
 
-string readLineTrimmed(const string& prompt) {
+string readLineTrimmed(const string &prompt) {
     string input;
     cout << prompt;
     getline(cin, input);
@@ -23,16 +23,19 @@ string readLineTrimmed(const string& prompt) {
     return input;
 }
 
-int safeInputInt(const string& prompt) {
-    regex pat(R"(^[+-]?\d+$)");
+int safeInputInt(const string &prompt) {
+    static const regex pat(R"(^[+-]?\d+$)");
 
     while (true) {
         string input = readLineTrimmed(prompt);
+
         if (!input.empty() && regex_match(input, pat)) {
             try {
                 return stoi(input);
-            } catch (...) {
-                cout << "Invalid number.\n";
+            } catch (const invalid_argument &) {
+                cout << "Invalid number format.\n";
+            } catch (const out_of_range &) {
+                cout << "Number is out of range.\n";
             }
         } else {
             cout << "Please enter an integer.\n";
@@ -40,32 +43,43 @@ int safeInputInt(const string& prompt) {
     }
 }
 
-int safePositiveInputInt(const string& prompt) {
+int safePositiveInputInt(const string &prompt) {
     while (true) {
         int val = safeInputInt(prompt);
-        if (val > 0) return val;
+        if (val > 0) {
+            return val;
+        }
         cout << "Must be positive.\n";
     }
 }
 
-float safeInputFloat(const string& prompt) {
-    regex pat(R"(^[+-]?\d+([.,]\d+)?$)");
+
+float safeInputFloat(const string &prompt) {
+    static const regex pat(R"(^[+-]?\d+([.,]\d+)?$)");
 
     while (true) {
         string input = readLineTrimmed(prompt);
+
         if (!input.empty() && regex_match(input, pat)) {
-            replace(input.begin(), input.end(), ',', '.');
+            ranges::replace(input, ',', '.');
+
             stringstream ss(input);
             ss.imbue(locale::classic());
+
             float value;
             ss >> value;
-            if (ss && ss.eof()) return value;
+
+            if (ss && ss.eof()) {
+                return value;
+            }
         }
+
         cout << "Please enter a valid number.\n";
     }
 }
 
-float safePositiveInputFloat(const string& prompt) {
+
+float safePositiveInputFloat(const string &prompt) {
     while (true) {
         float val = safeInputFloat(prompt);
         if (val > 0.0f) return val;
@@ -73,7 +87,7 @@ float safePositiveInputFloat(const string& prompt) {
     }
 }
 
-string safeInputWord(const string& prompt) {
+string safeInputWord(const string &prompt) {
     regex pat(R"(^\S+$)");
     while (true) {
         string input = readLineTrimmed(prompt);
