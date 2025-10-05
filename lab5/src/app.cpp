@@ -64,7 +64,7 @@ void manageList(SinglyLinkedList<T>& list, const std::string& typeName) {
 }
 
 
-void App::run() {
+void App::run() const{
     int choice;
     do {
         cout << "\n=== Main Menu ===\n";
