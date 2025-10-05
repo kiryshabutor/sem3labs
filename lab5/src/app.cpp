@@ -81,6 +81,5 @@ void App::run() {
         } else if (choice != 0) {
             cout << "Invalid choice.\n";
         }
-
     } while (choice != 0);
 }
