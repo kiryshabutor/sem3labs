@@ -13,6 +13,12 @@ public:
     SinglyLinkedList();
     ~SinglyLinkedList();
 
+    SinglyLinkedList(const SinglyLinkedList&) = delete;
+    SinglyLinkedList& operator=(const SinglyLinkedList&) = delete;
+
+    SinglyLinkedList(SinglyLinkedList&&) = delete;
+    SinglyLinkedList& operator=(SinglyLinkedList&&) = delete;
+
     void pushFront(const T& value);
     void pushBack(const T& value);
     void popFront();
@@ -27,5 +33,6 @@ public:
     T& back();
     const T& back() const;
 };
+
 
 #include "../src/singly_linked_list.tpp"
