@@ -3,6 +3,9 @@
 #include <iostream>
 using namespace std;
 
+const int COMMISSION_MIN = 10;
+const int COMMISSION_MAX = 100;
+
 CommissionEmployee::CommissionEmployee() = default;
 
 CommissionEmployee::CommissionEmployee(string_view f, string_view l, double sales, double rate)
@@ -19,7 +22,7 @@ void CommissionEmployee::inputData() {
     setFirstName(safeInputWord("Enter first name: "));
     setLastName(safeInputWord("Enter last name: "));
     salesAmount = safePositiveInputDouble("Enter sales amount: ");
-    commissionRate = safeInputCommission("Enter commission rate: ");
+    commissionRate = safeInputCommission("Enter commission rate: ", COMMISSION_MIN, COMMISSION_MAX);
 }
 
 void CommissionEmployee::printInfo() const {

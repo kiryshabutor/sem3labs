@@ -8,8 +8,6 @@
 
 using namespace std;
 
-const int COMMISSION_MIN = 10;
-const int COMMISSION_MAX = 100;
 
 inline void trimInplace(string &s) {
     while (!s.empty() && isspace(static_cast<unsigned char>(s.front())))
@@ -88,14 +86,15 @@ double safePositiveInputDouble(const string &prompt) {
     }
 }
 
-double safeInputCommission(const string& prompt) {
+double safeInputCommission(const string& prompt, const int minCommission, const int maxCommission) {
     while (true) {
+        cout << "Commission must be between " << minCommission
+             << " and " << maxCommission << " percent.\n";
         double val = safeInputDouble(prompt);
-        if (val >= COMMISSION_MIN && val <= COMMISSION_MAX) {
+        if (val >= minCommission && val <= maxCommission) {
             return val / 100.0;
         }
-        cout << "Commission must be between " << COMMISSION_MIN
-             << " and " << COMMISSION_MAX << " percent.\n";
+        cout << "Commission range error\n";
     }
 }
 
