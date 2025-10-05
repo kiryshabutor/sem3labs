@@ -56,6 +56,14 @@ jobs:
           build-wrapper-win-x86-64.exe --out-dir lab4/build_wrapper cmake --build lab4/build --config Release
         shell: pwsh
 
+      - name: Build lab5
+        run: |
+          if (Test-Path lab5/build) { Remove-Item -Recurse -Force lab5/build }
+          mkdir lab5/build
+          cmake -S lab5 -B lab5/build
+          build-wrapper-win-x86-64.exe --out-dir lab5/build_wrapper cmake --build lab5/build --config Release
+        shell: pwsh
+
       - name: SonarCloud scan lab1
         uses: SonarSource/sonarqube-scan-action@v4
         env:
@@ -114,6 +122,22 @@ jobs:
             -Dsonar.organization=${{ env.SONAR_ORG }}
             -Dsonar.sources=lab4
             -Dsonar.cfamily.compile-commands=lab4/build_wrapper/compile_commands.json
+            -Dsonar.coverage.exclusions=**
+            -Dsonar.cfamily.skipCoverage=true
+            -Dsonar.branch.name=main
+            -Dsonar.issue.ignore.multicriteria.e1.ruleKey=cxx:S5025
+            -Dsonar.issue.ignore.multicriteria.e1.resourceKey=**/*
+
+      - name: SonarCloud scan lab5
+        uses: SonarSource/sonarqube-scan-action@v4
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.projectKey=kiryshabutor_cpp-lab5
+            -Dsonar.organization=${{ env.SONAR_ORG }}
+            -Dsonar.sources=lab5
+            -Dsonar.cfamily.compile-commands=lab5/build_wrapper/compile_commands.json
             -Dsonar.coverage.exclusions=**
             -Dsonar.cfamily.skipCoverage=true
             -Dsonar.branch.name=main
