@@ -4,60 +4,65 @@
 using namespace std;
 
 template <typename T>
-void manageList(SinglyLinkedList<T>& list, const string& typeName) {
+void manageList(SinglyLinkedList<T>& list, const std::string& typeName) {
     int choice;
     do {
-        cout << "\n=== Singly Linked List (" << typeName << ") ===\n";
-        cout << "1. Push front\n";
-        cout << "2. Push back\n";
-        cout << "3. Pop front\n";
-        cout << "4. Show list\n";
-        cout << "5. Clear list\n";
-        cout << "0. Exit to main menu\n";
-        choice = safeInputInt("Choose: ");
+        std::cout << "\n=== Singly Linked List (" << typeName << ") ===\n";
+        std::cout << "1. Push front\n";
+        std::cout << "2. Push back\n";
+        std::cout << "3. Pop front\n";
+        std::cout << "4. Show list\n";
+        std::cout << "5. Clear list\n";
+        std::cout << "0. Exit to main menu\n";
 
+        choice = safeInputInt("Choose: ");
         switch (choice) {
-            case 1: {
-                if constexpr (is_same_v<T, int>)
+            case 1:
+                if constexpr (std::is_same_v<T, int>)
                     list.pushFront(safeInputInt("Enter value: "));
-                else if constexpr (is_same_v<T, double>)
+                else if constexpr (std::is_same_v<T, double>)
                     list.pushFront(safeInputDouble("Enter value: "));
-                else if constexpr (is_same_v<T, char>)
+                else if constexpr (std::is_same_v<T, char>)
                     list.pushFront(safeInputChar("Enter value: "));
                 break;
-            }
-            case 2: {
-                if constexpr (is_same_v<T, int>)
+
+            case 2:
+                if constexpr (std::is_same_v<T, int>)
                     list.pushBack(safeInputInt("Enter value: "));
-                else if constexpr (is_same_v<T, double>)
+                else if constexpr (std::is_same_v<T, double>)
                     list.pushBack(safeInputDouble("Enter value: "));
-                else if constexpr (is_same_v<T, char>)
+                else if constexpr (std::is_same_v<T, char>)
                     list.pushBack(safeInputChar("Enter value: "));
                 break;
-            }
+
             case 3:
                 try {
                     list.popFront();
-                    cout << "First element removed.\n";
-                } catch (const exception& e) {
-                    cout << e.what() << endl;
+                    std::cout << "First element removed.\n";
+                } catch (const std::out_of_range& e) {
+                    std::cout << e.what() << std::endl;
                 }
                 break;
+
             case 4:
                 list.print();
                 break;
+
             case 5:
                 list.clear();
-                cout << "List cleared.\n";
+                std::cout << "List cleared.\n";
                 break;
+
             case 0:
-                cout << "Returning to main menu...\n";
+                std::cout << "Returning to main menu...\n";
                 break;
+
             default:
-                cout << "Invalid choice.\n";
+                std::cout << "Invalid choice.\n";
         }
     } while (choice != 0);
 }
+
 
 void App::run() {
     int choice;
