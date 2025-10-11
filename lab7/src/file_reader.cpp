@@ -17,14 +17,14 @@ FileReader::~FileReader() noexcept {
         try {
             fileStream_->exceptions(std::ios::goodbit);
             if (fileStream_->is_open()) {
-                std::cerr << "Closing file: " << filePath_ << "\n";
                 fileStream_->close();
             }
         } catch (...) {
-            std::cerr << "Warning: failed to close file: " << filePath_ << "\n";
+            fputs("Warning: failed to close file.\n", stderr);
         }
     }
 }
+
 
 
 FileReader::FileReader(const FileReader& other)
