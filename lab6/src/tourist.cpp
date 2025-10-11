@@ -112,8 +112,6 @@ void Tourist::inputData() {
             cout << "Invalid input: " << e.what() << ". Please try again.\n";
         } catch (const out_of_range& e) {
             cout << "Value out of range: " << e.what() << ". Try again.\n";
-        } catch (const exception& e) {
-            cout << "Unexpected error: " << e.what() << ". Try again.\n";
         }
     }
 }
