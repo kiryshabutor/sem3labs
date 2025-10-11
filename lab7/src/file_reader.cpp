@@ -13,17 +13,19 @@ FileReader::FileReader(const std::string& filePath)
 }
 
 FileReader::~FileReader() noexcept {
-    if (fileStream_ && fileStream_->is_open()) {
+    if (fileStream_) {
         try {
-            std::cout << std::format("Closing file '{}'\n", filePath_);
-            fileStream_->close();
-        } catch (const std::exception& e) {
-            std::cerr << std::format("Warning: failed to close file '{}': {}\n", filePath_, e.what());
+            fileStream_->exceptions(std::ios::goodbit);
+            if (fileStream_->is_open()) {
+                std::cerr << "Closing file: " << filePath_ << "\n";
+                fileStream_->close();
+            }
         } catch (...) {
-            std::cerr << std::format("Unknown error while closing file '{}'\n", filePath_);
+            std::cerr << "Warning: failed to close file: " << filePath_ << "\n";
         }
     }
 }
+
 
 FileReader::FileReader(const FileReader& other)
     : filePath_(other.filePath_) {
