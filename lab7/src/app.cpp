@@ -6,9 +6,11 @@
 
 void App::run() {
     bool running = true;
+
     while (running) {
         showMenu();
         int choice = safeInputInt("Choose an option: ");
+
         if (choice == 0) {
             std::cout << "Exiting...\n";
             running = false;
@@ -21,11 +23,14 @@ void App::run() {
             std::cout << std::format("Error: {}\n", e.what());
         } catch (const std::out_of_range& e) {
             std::cout << std::format("Range error: {}\n", e.what());
-        } catch (const std::runtime_error& e) {
-            std::cout << std::format("Runtime error: {}\n", e.what());
+        } catch (const std::length_error& e) {
+            std::cout << std::format("File length error: {}\n", e.what());
+        } catch (const std::system_error& e) {
+            std::cout << std::format("System error: {}\n", e.what());
         }
     }
 }
+
 
 void App::showMenu() const {
     std::cout << "\n=== Menu ===\n"
