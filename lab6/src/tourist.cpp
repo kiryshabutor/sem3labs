@@ -102,12 +102,11 @@ void Tourist::printBorderCrossings() const {
 }
 
 void Tourist::inputData() {
-    bool valid = false;
-    while (!valid) {
+    while (true) {
         try {
             Person::inputData();
             passportData = safeInputWord("Enter passport data: ");
-            valid = true;
+            break;
         } catch (const invalid_argument& e) {
             cout << "Invalid input: " << e.what() << ". Please try again.\n";
         } catch (const out_of_range& e) {

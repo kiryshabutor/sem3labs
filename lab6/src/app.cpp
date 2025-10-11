@@ -88,8 +88,25 @@ void App::menuEntrepreneur() const {
                     break;
                 case 2: {
                     Date d;
-                    d.inputDate();
-                    float sum = safePositiveInputFloat("Enter tax sum: ");
+                    while (true) {
+                        try {
+                            d.inputDate();
+                            break;
+                        } catch (const exception &ex) {
+                            cout << "Invalid date: " << ex.what() << "\nTry again.\n";
+                        }
+                    }
+
+                    float sum;
+                    while (true) {
+                        try {
+                            sum = safePositiveInputFloat("Enter tax sum: ");
+                            break;
+                        } catch (const exception &ex) {
+                            cout << "Invalid sum: " << ex.what() << "\nTry again.\n";
+                        }
+                    }
+
                     e->addTaxPayment(d, sum);
                     break;
                 }
@@ -127,8 +144,25 @@ void App::menuTourist() const {
                     break;
                 case 2: {
                     Date d;
-                    d.inputDate();
-                    string country = safeInputLine("Enter country: ");
+                    while (true) {
+                        try {
+                            d.inputDate();
+                            break;
+                        } catch (const exception &ex) {
+                            cout << "Invalid date: " << ex.what() << "\nTry again.\n";
+                        }
+                    }
+
+                    string country;
+                    while (true) {
+                        try {
+                            country = safeInputLine("Enter country: ");
+                            break;
+                        } catch (const exception &ex) {
+                            cout << "Invalid input: " << ex.what() << "\nTry again.\n";
+                        }
+                    }
+
                     t->addBorderCrossing(d, country);
                     break;
                 }
@@ -170,8 +204,25 @@ void App::menuShuttler() const {
                     break;
                 case 2: {
                     Date d;
-                    d.inputDate();
-                    float sum = safePositiveInputFloat("Enter tax sum: ");
+                    while (true) {
+                        try {
+                            d.inputDate();
+                            break;
+                        } catch (const exception &ex) {
+                            cout << "Invalid date: " << ex.what() << "\nTry again.\n";
+                        }
+                    }
+
+                    float sum;
+                    while (true) {
+                        try {
+                            sum = safePositiveInputFloat("Enter tax sum: ");
+                            break;
+                        } catch (const exception &ex) {
+                            cout << "Invalid sum: " << ex.what() << "\nTry again.\n";
+                        }
+                    }
+
                     s->addTaxPayment(d, sum);
                     break;
                 }
@@ -180,8 +231,25 @@ void App::menuShuttler() const {
                     break;
                 case 4: {
                     Date d;
-                    d.inputDate();
-                    string country = safeInputLine("Enter country: ");
+                    while (true) {
+                        try {
+                            d.inputDate();
+                            break;
+                        } catch (const exception &ex) {
+                            cout << "Invalid date: " << ex.what() << "\nTry again.\n";
+                        }
+                    }
+
+                    string country;
+                    while (true) {
+                        try {
+                            country = safeInputLine("Enter country: ");
+                            break;
+                        } catch (const exception &ex) {
+                            cout << "Invalid input: " << ex.what() << "\nTry again.\n";
+                        }
+                    }
+
                     s->addBorderCrossing(d, country);
                     break;
                 }
@@ -189,7 +257,16 @@ void App::menuShuttler() const {
                     s->printBorderCrossings();
                     break;
                 case 6: {
-                    string addr = safeInputLine("Enter shopping address: ");
+                    string addr;
+                    while (true) {
+                        try {
+                            addr = safeInputLine("Enter shopping address: ");
+                            break;
+                        } catch (const exception &ex) {
+                            cout << "Invalid input: " << ex.what() << "\nTry again.\n";
+                        }
+                    }
+
                     s->addShoppingAddress(addr);
                     break;
                 }

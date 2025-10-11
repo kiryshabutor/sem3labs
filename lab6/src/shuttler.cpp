@@ -97,19 +97,26 @@ void Shuttler::printShoppingAddresses() const {
 }
 
 void Shuttler::inputData() {
-    bool valid = false;
-    while (!valid) {
+    while (true) {
         try {
             Entrepreneur::inputData();
             setPassportData(safeInputWord("Enter passport data: "));
 
             int n = safePositiveInputInt("How many shopping addresses? ");
             for (int i = 0; i < n; i++) {
-                string addr = safeInputLine(std::format("Address {}: ", i + 1));
+                string addr;
+                while (true) {
+                    try {
+                        addr = safeInputLine(std::format("Address {}: ", i + 1));
+                        break;
+                    } catch (const exception& ex) {
+                        cout << "Invalid input: " << ex.what() << ". Try again.\n";
+                    }
+                }
                 addShoppingAddress(addr);
             }
 
-            valid = true;
+            break;
         } catch (const invalid_argument& e) {
             cout << "Invalid input: " << e.what() << ". Please try again.\n";
         } catch (const out_of_range& e) {

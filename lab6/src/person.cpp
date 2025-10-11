@@ -23,8 +23,7 @@ void Person::setMiddleName(string_view m) { middleName = m; }
 void Person::setBirthYear(int y) { birthYear = y; }
 
 void Person::inputData() {
-    bool valid = false;
-    while (!valid) {
+    while (true) {
         try {
             firstName = safeInputWord("Enter first name: ");
             lastName = safeInputWord("Enter last name: ");
@@ -37,13 +36,13 @@ void Person::inputData() {
 #ifdef _WIN32
             localtime_s(&tmv, &tt);
 #else
-            localtime_r(&tt, &tmv);
+            localtime_r(&tt, &tt);
 #endif
             int currentYear = tmv.tm_year + TM_YEAR_BASE;
             if (y > currentYear) throw invalid_argument("Year cannot be in the future.");
 
             birthYear = y;
-            valid = true;
+            break;
 
         } catch (const invalid_argument& e) {
             cout << "Invalid input: " << e.what() << ". Please try again.\n";

@@ -80,14 +80,13 @@ Entrepreneur& Entrepreneur::operator=(Entrepreneur&& other) noexcept {
 }
 
 void Entrepreneur::inputData() {
-    bool valid = false;
-    while (!valid) {
+    while (true) {
         try {
             Person::inputData();
             licenseNumber = safePositiveInputInt("Enter license number: ");
             registrationAddress = safeInputLine("Enter registration address: ");
             inn = safePositiveInputInt("Enter INN: ");
-            valid = true;
+            break;
         } catch (const invalid_argument& e) {
             cout << "Invalid input: " << e.what() << ". Please try again.\n";
         } catch (const out_of_range& e) {
@@ -120,3 +119,13 @@ void Entrepreneur::printTaxPayments() const {
     }
 }
 
+void Entrepreneur::ensureCapacity() {
+    int newCapacity = (taxCapacity == 0 ? 2 : taxCapacity * 2);
+    auto* newArr = new pair<Date, float>[newCapacity];
+    for (int i = 0; i < taxCount; i++) {
+        newArr[i] = taxPayments[i];
+    }
+    delete[] taxPayments;
+    taxPayments = newArr;
+    taxCapacity = newCapacity;
+}
