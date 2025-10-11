@@ -44,50 +44,6 @@ void App::handleChoice(int choice) {
     }
 }
 
-static Date inputDateSafely() {
-    while (true) {
-        try {
-            Date d;
-            d.inputDate();
-            return d;
-        } catch (const invalid_argument& ex) {
-            cout << "Invalid argument: " << ex.what() << "\nTry again.\n";
-        } catch (const out_of_range& ex) {
-            cout << "Value out of range: " << ex.what() << "\nTry again.\n";
-        } catch (const system_error& ex) {
-            cout << "System error: " << ex.what() << "\nTry again.\n";
-        }
-    }
-}
-
-static float inputPositiveFloatSafely(const string& prompt) {
-    while (true) {
-        try {
-            return safePositiveInputFloat(prompt);
-        } catch (const invalid_argument& ex) {
-            cout << "Invalid argument: " << ex.what() << "\nTry again.\n";
-        } catch (const out_of_range& ex) {
-            cout << "Value out of range: " << ex.what() << "\nTry again.\n";
-        } catch (const system_error& ex) {
-            cout << "System error: " << ex.what() << "\nTry again.\n";
-        }
-    }
-}
-
-static string inputLineSafely(const string& prompt) {
-    while (true) {
-        try {
-            return safeInputLine(prompt);
-        } catch (const invalid_argument& ex) {
-            cout << "Invalid argument: " << ex.what() << "\nTry again.\n";
-        } catch (const out_of_range& ex) {
-            cout << "Value out of range: " << ex.what() << "\nTry again.\n";
-        } catch (const system_error& ex) {
-            cout << "System error: " << ex.what() << "\nTry again.\n";
-        }
-    }
-}
-
 void App::menuPerson() const {
     int choice = -1;
     do {
@@ -117,7 +73,7 @@ void App::menuPerson() const {
 }
 
 void App::menuEntrepreneur() const {
-    auto *e = dynamic_cast<Entrepreneur *>(current.get());
+    auto* e = dynamic_cast<Entrepreneur*>(current.get());
     if (!e) return;
 
     int choice = -1;
@@ -135,8 +91,10 @@ void App::menuEntrepreneur() const {
                     e->printInfo();
                     break;
                 case 2: {
-                    Date d = inputDateSafely();
-                    float sum = inputPositiveFloatSafely("Enter tax sum: ");
+                    Date d;
+                    d.inputDate();
+
+                    float sum = safePositiveInputFloat("Enter tax sum: ");
                     e->addTaxPayment(d, sum);
                     break;
                 }
@@ -159,7 +117,7 @@ void App::menuEntrepreneur() const {
 }
 
 void App::menuTourist() const {
-    auto *t = dynamic_cast<Tourist *>(current.get());
+    auto* t = dynamic_cast<Tourist*>(current.get());
     if (!t) return;
 
     int choice = -1;
@@ -177,8 +135,10 @@ void App::menuTourist() const {
                     t->printInfo();
                     break;
                 case 2: {
-                    Date d = inputDateSafely();
-                    string country = inputLineSafely("Enter country: ");
+                    Date d;
+                    d.inputDate();
+
+                    string country = safeInputLine("Enter country: ");
                     t->addBorderCrossing(d, country);
                     break;
                 }
@@ -201,7 +161,7 @@ void App::menuTourist() const {
 }
 
 void App::menuShuttler() const {
-    auto *s = dynamic_cast<Shuttler *>(current.get());
+    auto* s = dynamic_cast<Shuttler*>(current.get());
     if (!s) return;
 
     int choice = -1;
@@ -223,8 +183,10 @@ void App::menuShuttler() const {
                     s->printInfo();
                     break;
                 case 2: {
-                    Date d = inputDateSafely();
-                    float sum = inputPositiveFloatSafely("Enter tax sum: ");
+                    Date d;
+                    d.inputDate();
+
+                    float sum = safePositiveInputFloat("Enter tax sum: ");
                     s->addTaxPayment(d, sum);
                     break;
                 }
@@ -232,8 +194,10 @@ void App::menuShuttler() const {
                     s->printTaxPayments();
                     break;
                 case 4: {
-                    Date d = inputDateSafely();
-                    string country = inputLineSafely("Enter country: ");
+                    Date d;
+                    d.inputDate();
+
+                    string country = safeInputLine("Enter country: ");
                     s->addBorderCrossing(d, country);
                     break;
                 }
@@ -241,7 +205,7 @@ void App::menuShuttler() const {
                     s->printBorderCrossings();
                     break;
                 case 6: {
-                    string addr = inputLineSafely("Enter shopping address: ");
+                    string addr = safeInputLine("Enter shopping address: ");
                     s->addShoppingAddress(addr);
                     break;
                 }
