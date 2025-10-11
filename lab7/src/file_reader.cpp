@@ -12,12 +12,19 @@ FileReader::FileReader(const std::string& filePath)
     openFile(filePath_);
 }
 
-FileReader::~FileReader() {
+FileReader::~FileReader() noexcept {
     if (fileStream_ && fileStream_->is_open()) {
-        std::cout << std::format("Closing file '{}'\n", filePath_);
-        fileStream_->close();
+        try {
+            std::cout << std::format("Closing file '{}'\n", filePath_);
+            fileStream_->close();
+        } catch (const std::exception& e) {
+            std::cerr << std::format("Warning: failed to close file '{}': {}\n", filePath_, e.what());
+        } catch (...) {
+            std::cerr << std::format("Unknown error while closing file '{}'\n", filePath_);
+        }
     }
 }
+
 
 FileReader::FileReader(const FileReader& other)
     : filePath_(other.filePath_) {

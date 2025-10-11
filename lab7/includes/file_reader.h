@@ -6,7 +6,7 @@
 class FileReader final {
 public:
     explicit FileReader(const std::string& filePath);
-    ~FileReader();
+    ~FileReader() noexcept;
 
     FileReader(const FileReader& other);
     FileReader& operator=(const FileReader& other);
