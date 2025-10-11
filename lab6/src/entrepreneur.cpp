@@ -127,8 +127,11 @@ std::string_view Entrepreneur::getRegistrationAddress() const { return registrat
 int Entrepreneur::getInn() const { return inn; }
 
 void Entrepreneur::addTaxPayment(const Date& d, float sum) {
-    if (taxCount >= taxCapacity) ensureCapacity();
-    taxPayments[taxCount++] = { d, sum };
+    while (taxCount >= taxCapacity) {
+        ensureCapacity();
+    }
+    taxCount++;
+    taxPayments[taxCount-1] = {d, sum};
 }
 
 void Entrepreneur::printTaxPayments() const {
