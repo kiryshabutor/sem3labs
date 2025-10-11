@@ -47,8 +47,12 @@ static int inputPositiveIntSafely(const string& prompt) {
     while (true) {
         try {
             return safePositiveInputInt(prompt);
-        } catch (const exception& ex) {
-            cout << "Invalid input: " << ex.what() << ". Try again.\n";
+        } catch (const invalid_argument& ex) {
+            cout << "Invalid argument: " << ex.what() << ". Try again.\n";
+        } catch (const out_of_range& ex) {
+            cout << "Value out of range: " << ex.what() << ". Try again.\n";
+        } catch (const system_error& ex) {
+            cout << "System error: " << ex.what() << ". Try again.\n";
         }
     }
 }
@@ -68,9 +72,11 @@ void Date::inputDate() {
             year = y;
             break;
         } catch (const invalid_argument& e) {
-            cout << "Invalid input: " << e.what() << ". Try again.\n";
+            cout << "Invalid argument: " << e.what() << ". Try again.\n";
         } catch (const out_of_range& e) {
             cout << "Value out of range: " << e.what() << ". Try again.\n";
+        } catch (const system_error& e) {
+            cout << "System error: " << e.what() << ". Try again.\n";
         }
     }
 }

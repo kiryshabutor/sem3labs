@@ -26,8 +26,12 @@ static string inputWordSafely(const string& prompt) {
     while (true) {
         try {
             return safeInputWord(prompt);
-        } catch (const exception& ex) {
-            cout << "Invalid input: " << ex.what() << ". Please try again.\n";
+        } catch (const invalid_argument& ex) {
+            cout << "Invalid argument: " << ex.what() << ". Please try again.\n";
+        } catch (const out_of_range& ex) {
+            cout << "Value out of range: " << ex.what() << ". Please try again.\n";
+        } catch (const system_error& ex) {
+            cout << "System error: " << ex.what() << ". Please try again.\n";
         }
     }
 }
@@ -36,8 +40,12 @@ static int inputPositiveIntSafely(const string& prompt) {
     while (true) {
         try {
             return safePositiveInputInt(prompt);
-        } catch (const exception& ex) {
-            cout << "Invalid input: " << ex.what() << ". Please try again.\n";
+        } catch (const invalid_argument& ex) {
+            cout << "Invalid argument: " << ex.what() << ". Please try again.\n";
+        } catch (const out_of_range& ex) {
+            cout << "Value out of range: " << ex.what() << ". Please try again.\n";
+        } catch (const system_error& ex) {
+            cout << "System error: " << ex.what() << ". Please try again.\n";
         }
     }
 }
@@ -65,9 +73,11 @@ void Person::inputData() {
             break;
 
         } catch (const invalid_argument& e) {
-            cout << "Invalid input: " << e.what() << ". Please try again.\n";
+            cout << "Invalid argument: " << e.what() << ". Please try again.\n";
         } catch (const out_of_range& e) {
             cout << "Value out of range: " << e.what() << ". Please try again.\n";
+        } catch (const system_error& e) {
+            cout << "System error: " << e.what() << ". Please try again.\n";
         }
     }
 }

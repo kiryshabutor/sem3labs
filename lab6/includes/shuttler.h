@@ -7,7 +7,7 @@
 class Shuttler : public Entrepreneur, public Tourist {
 private:
     std::string* shoppingAddresses{nullptr};
-    std::string inputShoppingAddress(int index);
+    std::string inputShoppingAddress(int index) const;
     int shopCount{0};
     int shopCapacity{0};
 

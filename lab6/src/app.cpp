@@ -50,8 +50,12 @@ static Date inputDateSafely() {
             Date d;
             d.inputDate();
             return d;
-        } catch (const exception& ex) {
-            cout << "Invalid date: " << ex.what() << "\nTry again.\n";
+        } catch (const invalid_argument& ex) {
+            cout << "Invalid argument: " << ex.what() << "\nTry again.\n";
+        } catch (const out_of_range& ex) {
+            cout << "Value out of range: " << ex.what() << "\nTry again.\n";
+        } catch (const system_error& ex) {
+            cout << "System error: " << ex.what() << "\nTry again.\n";
         }
     }
 }
@@ -60,8 +64,12 @@ static float inputPositiveFloatSafely(const string& prompt) {
     while (true) {
         try {
             return safePositiveInputFloat(prompt);
-        } catch (const exception& ex) {
-            cout << "Invalid sum: " << ex.what() << "\nTry again.\n";
+        } catch (const invalid_argument& ex) {
+            cout << "Invalid argument: " << ex.what() << "\nTry again.\n";
+        } catch (const out_of_range& ex) {
+            cout << "Value out of range: " << ex.what() << "\nTry again.\n";
+        } catch (const system_error& ex) {
+            cout << "System error: " << ex.what() << "\nTry again.\n";
         }
     }
 }
@@ -70,8 +78,12 @@ static string inputLineSafely(const string& prompt) {
     while (true) {
         try {
             return safeInputLine(prompt);
-        } catch (const exception& ex) {
-            cout << "Invalid input: " << ex.what() << "\nTry again.\n";
+        } catch (const invalid_argument& ex) {
+            cout << "Invalid argument: " << ex.what() << "\nTry again.\n";
+        } catch (const out_of_range& ex) {
+            cout << "Value out of range: " << ex.what() << "\nTry again.\n";
+        } catch (const system_error& ex) {
+            cout << "System error: " << ex.what() << "\nTry again.\n";
         }
     }
 }
@@ -94,8 +106,12 @@ void App::menuPerson() const {
                 default:
                     cout << "Invalid choice.\n";
             }
-        } catch (const exception &e) {
-            cout << "Input error: " << e.what() << "\nPlease try again.\n";
+        } catch (const invalid_argument& e) {
+            cout << "Invalid argument: " << e.what() << "\nPlease try again.\n";
+        } catch (const out_of_range& e) {
+            cout << "Value out of range: " << e.what() << "\nPlease try again.\n";
+        } catch (const system_error& e) {
+            cout << "System error: " << e.what() << "\nPlease try again.\n";
         }
     } while (choice != 0);
 }
@@ -132,8 +148,12 @@ void App::menuEntrepreneur() const {
                 default:
                     cout << "Invalid choice.\n";
             }
-        } catch (const exception &e) {
-            cout << "Input error: " << e.what() << "\nPlease try again.\n";
+        } catch (const invalid_argument& e) {
+            cout << "Invalid argument: " << e.what() << "\nPlease try again.\n";
+        } catch (const out_of_range& e) {
+            cout << "Value out of range: " << e.what() << "\nPlease try again.\n";
+        } catch (const system_error& e) {
+            cout << "System error: " << e.what() << "\nPlease try again.\n";
         }
     } while (choice != 0);
 }
@@ -170,8 +190,12 @@ void App::menuTourist() const {
                 default:
                     cout << "Invalid choice.\n";
             }
-        } catch (const exception &e) {
-            cout << "Input error: " << e.what() << "\nPlease try again.\n";
+        } catch (const invalid_argument& e) {
+            cout << "Invalid argument: " << e.what() << "\nPlease try again.\n";
+        } catch (const out_of_range& e) {
+            cout << "Value out of range: " << e.what() << "\nPlease try again.\n";
+        } catch (const system_error& e) {
+            cout << "System error: " << e.what() << "\nPlease try again.\n";
         }
     } while (choice != 0);
 }
@@ -229,8 +253,12 @@ void App::menuShuttler() const {
                 default:
                     cout << "Invalid choice.\n";
             }
-        } catch (const exception &e) {
-            cout << "Input error: " << e.what() << "\nPlease try again.\n";
+        } catch (const invalid_argument& e) {
+            cout << "Invalid argument: " << e.what() << "\nPlease try again.\n";
+        } catch (const out_of_range& e) {
+            cout << "Value out of range: " << e.what() << "\nPlease try again.\n";
+        } catch (const system_error& e) {
+            cout << "System error: " << e.what() << "\nPlease try again.\n";
         }
     } while (choice != 0);
 }
@@ -242,8 +270,12 @@ void App::run() {
             showMainMenu();
             choice = safeInputInt("Choose: ");
             handleChoice(choice);
-        } catch (const exception &e) {
-            cout << "Input error: " << e.what() << "\nPlease try again.\n";
+        } catch (const invalid_argument& e) {
+            cout << "Invalid argument: " << e.what() << "\nPlease try again.\n";
+        } catch (const out_of_range& e) {
+            cout << "Value out of range: " << e.what() << "\nPlease try again.\n";
+        } catch (const system_error& e) {
+            cout << "System error: " << e.what() << "\nPlease try again.\n";
         }
     } while (choice != 0);
 }
