@@ -44,6 +44,38 @@ void App::handleChoice(int choice) {
     }
 }
 
+static Date inputDateSafely() {
+    while (true) {
+        try {
+            Date d;
+            d.inputDate();
+            return d;
+        } catch (const exception& ex) {
+            cout << "Invalid date: " << ex.what() << "\nTry again.\n";
+        }
+    }
+}
+
+static float inputPositiveFloatSafely(const string& prompt) {
+    while (true) {
+        try {
+            return safePositiveInputFloat(prompt);
+        } catch (const exception& ex) {
+            cout << "Invalid sum: " << ex.what() << "\nTry again.\n";
+        }
+    }
+}
+
+static string inputLineSafely(const string& prompt) {
+    while (true) {
+        try {
+            return safeInputLine(prompt);
+        } catch (const exception& ex) {
+            cout << "Invalid input: " << ex.what() << "\nTry again.\n";
+        }
+    }
+}
+
 void App::menuPerson() const {
     int choice = -1;
     do {
@@ -87,26 +119,8 @@ void App::menuEntrepreneur() const {
                     e->printInfo();
                     break;
                 case 2: {
-                    Date d;
-                    while (true) {
-                        try {
-                            d.inputDate();
-                            break;
-                        } catch (const exception &ex) {
-                            cout << "Invalid date: " << ex.what() << "\nTry again.\n";
-                        }
-                    }
-
-                    float sum;
-                    while (true) {
-                        try {
-                            sum = safePositiveInputFloat("Enter tax sum: ");
-                            break;
-                        } catch (const exception &ex) {
-                            cout << "Invalid sum: " << ex.what() << "\nTry again.\n";
-                        }
-                    }
-
+                    Date d = inputDateSafely();
+                    float sum = inputPositiveFloatSafely("Enter tax sum: ");
                     e->addTaxPayment(d, sum);
                     break;
                 }
@@ -143,26 +157,8 @@ void App::menuTourist() const {
                     t->printInfo();
                     break;
                 case 2: {
-                    Date d;
-                    while (true) {
-                        try {
-                            d.inputDate();
-                            break;
-                        } catch (const exception &ex) {
-                            cout << "Invalid date: " << ex.what() << "\nTry again.\n";
-                        }
-                    }
-
-                    string country;
-                    while (true) {
-                        try {
-                            country = safeInputLine("Enter country: ");
-                            break;
-                        } catch (const exception &ex) {
-                            cout << "Invalid input: " << ex.what() << "\nTry again.\n";
-                        }
-                    }
-
+                    Date d = inputDateSafely();
+                    string country = inputLineSafely("Enter country: ");
                     t->addBorderCrossing(d, country);
                     break;
                 }
@@ -203,26 +199,8 @@ void App::menuShuttler() const {
                     s->printInfo();
                     break;
                 case 2: {
-                    Date d;
-                    while (true) {
-                        try {
-                            d.inputDate();
-                            break;
-                        } catch (const exception &ex) {
-                            cout << "Invalid date: " << ex.what() << "\nTry again.\n";
-                        }
-                    }
-
-                    float sum;
-                    while (true) {
-                        try {
-                            sum = safePositiveInputFloat("Enter tax sum: ");
-                            break;
-                        } catch (const exception &ex) {
-                            cout << "Invalid sum: " << ex.what() << "\nTry again.\n";
-                        }
-                    }
-
+                    Date d = inputDateSafely();
+                    float sum = inputPositiveFloatSafely("Enter tax sum: ");
                     s->addTaxPayment(d, sum);
                     break;
                 }
@@ -230,26 +208,8 @@ void App::menuShuttler() const {
                     s->printTaxPayments();
                     break;
                 case 4: {
-                    Date d;
-                    while (true) {
-                        try {
-                            d.inputDate();
-                            break;
-                        } catch (const exception &ex) {
-                            cout << "Invalid date: " << ex.what() << "\nTry again.\n";
-                        }
-                    }
-
-                    string country;
-                    while (true) {
-                        try {
-                            country = safeInputLine("Enter country: ");
-                            break;
-                        } catch (const exception &ex) {
-                            cout << "Invalid input: " << ex.what() << "\nTry again.\n";
-                        }
-                    }
-
+                    Date d = inputDateSafely();
+                    string country = inputLineSafely("Enter country: ");
                     s->addBorderCrossing(d, country);
                     break;
                 }
@@ -257,16 +217,7 @@ void App::menuShuttler() const {
                     s->printBorderCrossings();
                     break;
                 case 6: {
-                    string addr;
-                    while (true) {
-                        try {
-                            addr = safeInputLine("Enter shopping address: ");
-                            break;
-                        } catch (const exception &ex) {
-                            cout << "Invalid input: " << ex.what() << "\nTry again.\n";
-                        }
-                    }
-
+                    string addr = inputLineSafely("Enter shopping address: ");
                     s->addShoppingAddress(addr);
                     break;
                 }

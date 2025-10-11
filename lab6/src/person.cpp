@@ -22,21 +22,41 @@ void Person::setLastName(string_view l) { lastName = l; }
 void Person::setMiddleName(string_view m) { middleName = m; }
 void Person::setBirthYear(int y) { birthYear = y; }
 
+static string inputWordSafely(const string& prompt) {
+    while (true) {
+        try {
+            return safeInputWord(prompt);
+        } catch (const exception& ex) {
+            cout << "Invalid input: " << ex.what() << ". Please try again.\n";
+        }
+    }
+}
+
+static int inputPositiveIntSafely(const string& prompt) {
+    while (true) {
+        try {
+            return safePositiveInputInt(prompt);
+        } catch (const exception& ex) {
+            cout << "Invalid input: " << ex.what() << ". Please try again.\n";
+        }
+    }
+}
+
 void Person::inputData() {
     while (true) {
         try {
-            firstName = safeInputWord("Enter first name: ");
-            lastName = safeInputWord("Enter last name: ");
-            middleName = safeInputWord("Enter middle name: ");
+            firstName = inputWordSafely("Enter first name: ");
+            lastName = inputWordSafely("Enter last name: ");
+            middleName = inputWordSafely("Enter middle name: ");
 
-            int y = safePositiveInputInt("Enter birth year: ");
+            int y = inputPositiveIntSafely("Enter birth year: ");
             const auto now = chrono::system_clock::now();
             time_t tt = chrono::system_clock::to_time_t(now);
             tm tmv{};
 #ifdef _WIN32
             localtime_s(&tmv, &tt);
 #else
-            localtime_r(&tt, &tt);
+            localtime_r(&tt, &tmv);
 #endif
             int currentYear = tmv.tm_year + TM_YEAR_BASE;
             if (y > currentYear) throw invalid_argument("Year cannot be in the future.");

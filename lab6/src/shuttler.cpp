@@ -96,6 +96,16 @@ void Shuttler::printShoppingAddresses() const {
     }
 }
 
+string Shuttler::inputShoppingAddress(int index) {
+    while (true) {
+        try {
+            return safeInputLine(std::format("Address {}: ", index + 1));
+        } catch (const exception& ex) {
+            cout << "Invalid input: " << ex.what() << ". Try again.\n";
+        }
+    }
+}
+
 void Shuttler::inputData() {
     while (true) {
         try {
@@ -104,15 +114,7 @@ void Shuttler::inputData() {
 
             int n = safePositiveInputInt("How many shopping addresses? ");
             for (int i = 0; i < n; i++) {
-                string addr;
-                while (true) {
-                    try {
-                        addr = safeInputLine(std::format("Address {}: ", i + 1));
-                        break;
-                    } catch (const exception& ex) {
-                        cout << "Invalid input: " << ex.what() << ". Try again.\n";
-                    }
-                }
+                string addr = inputShoppingAddress(i);
                 addShoppingAddress(addr);
             }
 

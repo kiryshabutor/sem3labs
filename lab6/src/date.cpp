@@ -36,20 +36,30 @@ void Date::getCurrentDate() {
 #ifdef _WIN32
     localtime_s(&localTime, &timeNow);
 #else
-    localtime_r(&timeNow, &timeNow);
+    localtime_r(&timeNow, &localTime);
 #endif
     currentDay = localTime.tm_mday;
     currentMonth = localTime.tm_mon + TM_MONTH_BASE;
     currentYear = localTime.tm_year + TM_YEAR_BASE;
 }
 
+static int inputPositiveIntSafely(const string& prompt) {
+    while (true) {
+        try {
+            return safePositiveInputInt(prompt);
+        } catch (const exception& ex) {
+            cout << "Invalid input: " << ex.what() << ". Try again.\n";
+        }
+    }
+}
+
 void Date::inputDate() {
     while (true) {
         try {
             cout << "Enter date:\n";
-            int d = safePositiveInputInt("Day: ");
-            int m = safePositiveInputInt("Month: ");
-            int y = safePositiveInputInt("Year: ");
+            int d = inputPositiveIntSafely("Day: ");
+            int m = inputPositiveIntSafely("Month: ");
+            int y = inputPositiveIntSafely("Year: ");
 
             if (!isValidDate(d, m, y))
                 throw invalid_argument("Invalid date values.");

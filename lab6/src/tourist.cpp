@@ -101,11 +101,21 @@ void Tourist::printBorderCrossings() const {
     }
 }
 
+static string inputWordSafely(const string& prompt) {
+    while (true) {
+        try {
+            return safeInputWord(prompt);
+        } catch (const exception& ex) {
+            cout << "Invalid input: " << ex.what() << ". Please try again.\n";
+        }
+    }
+}
+
 void Tourist::inputData() {
     while (true) {
         try {
             Person::inputData();
-            passportData = safeInputWord("Enter passport data: ");
+            passportData = inputWordSafely("Enter passport data: ");
             break;
         } catch (const invalid_argument& e) {
             cout << "Invalid input: " << e.what() << ". Please try again.\n";

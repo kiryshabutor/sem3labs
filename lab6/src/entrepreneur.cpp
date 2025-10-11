@@ -79,13 +79,33 @@ Entrepreneur& Entrepreneur::operator=(Entrepreneur&& other) noexcept {
     return *this;
 }
 
+static int inputPositiveIntSafely(const string& prompt) {
+    while (true) {
+        try {
+            return safePositiveInputInt(prompt);
+        } catch (const exception& ex) {
+            cout << "Invalid input: " << ex.what() << ". Please try again.\n";
+        }
+    }
+}
+
+static string inputLineSafely(const string& prompt) {
+    while (true) {
+        try {
+            return safeInputLine(prompt);
+        } catch (const exception& ex) {
+            cout << "Invalid input: " << ex.what() << ". Please try again.\n";
+        }
+    }
+}
+
 void Entrepreneur::inputData() {
     while (true) {
         try {
             Person::inputData();
-            licenseNumber = safePositiveInputInt("Enter license number: ");
-            registrationAddress = safeInputLine("Enter registration address: ");
-            inn = safePositiveInputInt("Enter INN: ");
+            licenseNumber = inputPositiveIntSafely("Enter license number: ");
+            registrationAddress = inputLineSafely("Enter registration address: ");
+            inn = inputPositiveIntSafely("Enter INN: ");
             break;
         } catch (const invalid_argument& e) {
             cout << "Invalid input: " << e.what() << ". Please try again.\n";
