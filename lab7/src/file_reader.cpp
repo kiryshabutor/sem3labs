@@ -12,7 +12,12 @@ FileReader::FileReader(const std::string& filePath)
     openFile(filePath_);
 }
 
-FileReader::~FileReader() = default;
+FileReader::~FileReader() {
+    if (fileStream_ && fileStream_->is_open()) {
+        std::cout << std::format("Closing file '{}'\n", filePath_);
+        fileStream_->close();
+    }
+}
 
 FileReader::FileReader(const FileReader& other)
     : filePath_(other.filePath_) {

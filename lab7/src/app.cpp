@@ -61,14 +61,14 @@ void App::enterFilePath() {
     std::cout << std::format("File '{}' loaded successfully.\n", currentFilePath_);
 }
 
-void App::showFileContent() {
+void App::showFileContent() const{
     if (!reader_) {
         throw std::invalid_argument("No file loaded. Please load a file first.");
     }
     reader_->printFileContent();
 }
 
-void App::readCharacter() {
+void App::readCharacter() const{
     if (!reader_) {
         throw std::invalid_argument("No file loaded. Please load a file first.");
     }

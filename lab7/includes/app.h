@@ -15,7 +15,7 @@ private:
     void showMenu() const;
     void handleChoice(int choice);
     void enterFilePath();
-    void showFileContent();
-    void readCharacter();
+    void showFileContent() const;
+    void readCharacter() const;
     void replaceCharacter();
 };
