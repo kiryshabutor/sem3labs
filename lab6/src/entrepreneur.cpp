@@ -95,3 +95,28 @@ void Entrepreneur::inputData() {
         }
     }
 }
+
+void Entrepreneur::printInfo() const {
+    Person::printInfo();
+    cout << "License: " << licenseNumber
+         << ", INN: " << inn
+         << ", Address: " << registrationAddress << endl;
+}
+
+int Entrepreneur::getLicenseNumber() const { return licenseNumber; }
+std::string_view Entrepreneur::getRegistrationAddress() const { return registrationAddress; }
+int Entrepreneur::getInn() const { return inn; }
+
+void Entrepreneur::addTaxPayment(const Date& d, float sum) {
+    if (taxCount >= taxCapacity) ensureCapacity();
+    taxPayments[taxCount++] = { d, sum };
+}
+
+void Entrepreneur::printTaxPayments() const {
+    cout << "Tax payments:\n";
+    for (int i = 0; i < taxCount; i++) {
+        taxPayments[i].first.printDate();
+        cout << " - " << taxPayments[i].second << endl;
+    }
+}
+

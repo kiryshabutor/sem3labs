@@ -64,3 +64,7 @@ void Date::inputDate() {
         }
     }
 }
+
+void Date::printDate() const {
+    cout << day << "." << month << "." << year;
+}
