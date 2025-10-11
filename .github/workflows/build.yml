@@ -24,144 +24,24 @@ jobs:
       - name: Install Build Wrapper
         uses: SonarSource/sonarqube-scan-action/install-build-wrapper@v4
 
-      - name: Build lab1
+      - name: Build lab7
         run: |
-          if (Test-Path lab1/build) { Remove-Item -Recurse -Force lab1/build }
-          mkdir lab1/build
-          cmake -S lab1 -B lab1/build
-          build-wrapper-win-x86-64.exe --out-dir lab1/build_wrapper cmake --build lab1/build --config Release
+          if (Test-Path lab7/build) { Remove-Item -Recurse -Force lab7/build }
+          mkdir lab7/build
+          cmake -S lab7 -B lab7/build
+          build-wrapper-win-x86-64.exe --out-dir lab7/build_wrapper cmake --build lab7/build --config Release
         shell: pwsh
 
-      - name: Build lab2
-        run: |
-          if (Test-Path lab2/build) { Remove-Item -Recurse -Force lab2/build }
-          mkdir lab2/build
-          cmake -S lab2 -B lab2/build
-          build-wrapper-win-x86-64.exe --out-dir lab2/build_wrapper cmake --build lab2/build --config Release
-        shell: pwsh
-
-      - name: Build lab3
-        run: |
-          if (Test-Path lab3/build) { Remove-Item -Recurse -Force lab3/build }
-          mkdir lab3/build
-          cmake -S lab3 -B lab3/build
-          build-wrapper-win-x86-64.exe --out-dir lab3/build_wrapper cmake --build lab3/build --config Release
-        shell: pwsh
-
-      - name: Build lab4
-        run: |
-          if (Test-Path lab4/build) { Remove-Item -Recurse -Force lab4/build }
-          mkdir lab4/build
-          cmake -S lab4 -B lab4/build
-          build-wrapper-win-x86-64.exe --out-dir lab4/build_wrapper cmake --build lab4/build --config Release
-        shell: pwsh
-
-      - name: Build lab5
-        run: |
-          if (Test-Path lab5/build) { Remove-Item -Recurse -Force lab5/build }
-          mkdir lab5/build
-          cmake -S lab5 -B lab5/build
-          build-wrapper-win-x86-64.exe --out-dir lab5/build_wrapper cmake --build lab5/build --config Release
-        shell: pwsh
-
-      - name: Build lab6
-        run: |
-          if (Test-Path lab6/build) { Remove-Item -Recurse -Force lab6/build }
-          mkdir lab6/build
-          cmake -S lab6 -B lab6/build
-          build-wrapper-win-x86-64.exe --out-dir lab6/build_wrapper cmake --build lab6/build --config Release
-        shell: pwsh
-
-      - name: SonarCloud scan lab1
+      - name: SonarCloud scan lab7
         uses: SonarSource/sonarqube-scan-action@v4
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-            -Dsonar.projectKey=kiryshabutor_cpp-lab1
+            -Dsonar.projectKey=kiryshabutor_cpp-lab7
             -Dsonar.organization=${{ env.SONAR_ORG }}
-            -Dsonar.sources=lab1
-            -Dsonar.cfamily.compile-commands=lab1/build_wrapper/compile_commands.json
-            -Dsonar.coverage.exclusions=**
-            -Dsonar.cfamily.skipCoverage=true
-            -Dsonar.branch.name=main
-            -Dsonar.issue.ignore.multicriteria.e1.ruleKey=cxx:S5025
-            -Dsonar.issue.ignore.multicriteria.e1.resourceKey=**/*
-
-      - name: SonarCloud scan lab2
-        uses: SonarSource/sonarqube-scan-action@v4
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          args: >
-            -Dsonar.projectKey=kiryshabutor_cpp-lab2
-            -Dsonar.organization=${{ env.SONAR_ORG }}
-            -Dsonar.sources=lab2
-            -Dsonar.cfamily.compile-commands=lab2/build_wrapper/compile_commands.json
-            -Dsonar.coverage.exclusions=**
-            -Dsonar.cfamily.skipCoverage=true
-            -Dsonar.branch.name=main
-            -Dsonar.issue.ignore.multicriteria.e1.ruleKey=cxx:S5025
-            -Dsonar.issue.ignore.multicriteria.e1.resourceKey=**/*
-
-      - name: SonarCloud scan lab3
-        uses: SonarSource/sonarqube-scan-action@v4
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          args: >
-            -Dsonar.projectKey=kiryshabutor_cpp-lab3
-            -Dsonar.organization=${{ env.SONAR_ORG }}
-            -Dsonar.sources=lab3
-            -Dsonar.cfamily.compile-commands=lab3/build_wrapper/compile_commands.json
-            -Dsonar.coverage.exclusions=**
-            -Dsonar.cfamily.skipCoverage=true
-            -Dsonar.branch.name=main
-            -Dsonar.issue.ignore.multicriteria.e1.ruleKey=cxx:S5025
-            -Dsonar.issue.ignore.multicriteria.e1.resourceKey=**/*
-
-      - name: SonarCloud scan lab4
-        uses: SonarSource/sonarqube-scan-action@v4
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          args: >
-            -Dsonar.projectKey=kiryshabutor_cpp-lab4
-            -Dsonar.organization=${{ env.SONAR_ORG }}
-            -Dsonar.sources=lab4
-            -Dsonar.cfamily.compile-commands=lab4/build_wrapper/compile_commands.json
-            -Dsonar.coverage.exclusions=**
-            -Dsonar.cfamily.skipCoverage=true
-            -Dsonar.branch.name=main
-            -Dsonar.issue.ignore.multicriteria.e1.ruleKey=cxx:S5025
-            -Dsonar.issue.ignore.multicriteria.e1.resourceKey=**/*
-
-      - name: SonarCloud scan lab5
-        uses: SonarSource/sonarqube-scan-action@v4
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          args: >
-            -Dsonar.projectKey=kiryshabutor_cpp-lab5
-            -Dsonar.organization=${{ env.SONAR_ORG }}
-            -Dsonar.sources=lab5
-            -Dsonar.cfamily.compile-commands=lab5/build_wrapper/compile_commands.json
-            -Dsonar.coverage.exclusions=**
-            -Dsonar.cfamily.skipCoverage=true
-            -Dsonar.branch.name=main
-            -Dsonar.issue.ignore.multicriteria.e1.ruleKey=cxx:S5025
-            -Dsonar.issue.ignore.multicriteria.e1.resourceKey=**/*
-
-      - name: SonarCloud scan lab6
-        uses: SonarSource/sonarqube-scan-action@v4
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          args: >
-            -Dsonar.projectKey=kiryshabutor_cpp-lab6
-            -Dsonar.organization=${{ env.SONAR_ORG }}
-            -Dsonar.sources=lab6
-            -Dsonar.cfamily.compile-commands=lab6/build_wrapper/compile_commands.json
+            -Dsonar.sources=lab7
+            -Dsonar.cfamily.compile-commands=lab7/build_wrapper/compile_commands.json
             -Dsonar.coverage.exclusions=**
             -Dsonar.cfamily.skipCoverage=true
             -Dsonar.branch.name=main
