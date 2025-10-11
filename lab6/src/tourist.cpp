@@ -118,6 +118,7 @@ void Tourist::inputData() {
     }
 }
 
+
 void Tourist::printInfo() const {
     Person::printInfo();
     cout << "Passport: " << passportData << endl;
