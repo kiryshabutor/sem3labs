@@ -12,10 +12,8 @@ public:
 
 template <typename T>
 bool ListAlgorithm<T>::find(const DoublyLinkedList<T>& list, const T& value) const {
-    for (auto it = list.begin(); it != list.end(); ++it)
-        if (*it == value)
-            return true;
-    return false;
+    return std::ranges::any_of(list.begin(), list.end(),
+                               [&](const T& elem) { return elem == value; });
 }
 
 template <typename T>

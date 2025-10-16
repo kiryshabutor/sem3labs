@@ -1,15 +1,15 @@
 #pragma once
-#include <iostream>
-#include <stdexcept>
-#include <iterator>  // для iterator tags
+#include <cstddef>
+#include <iterator>
 
 template <typename T>
 class DoublyLinkedList {
     struct Node {
-        T data;
-        Node* prev;
-        Node* next;
-        explicit Node(const T& value) : data(value), prev(nullptr), next(nullptr) {}
+        T data{};
+        Node* prev = nullptr;
+        Node* next = nullptr;
+
+        explicit Node(const T& value) : data(value) {}
     };
 
     Node* head = nullptr;
@@ -26,7 +26,7 @@ public:
     DoublyLinkedList& operator=(DoublyLinkedList&& other) noexcept;
 
     class Iterator {
-        Node* current;
+        Node* current = nullptr;
 
     public:
         using iterator_category = std::bidirectional_iterator_tag;
@@ -35,7 +35,7 @@ public:
         using pointer = T*;
         using reference = T&;
 
-        Iterator() : current(nullptr) {}
+        Iterator() = default;
         explicit Iterator(Node* ptr) : current(ptr) {}
 
         reference operator*() const { return current->data; }
@@ -45,9 +45,21 @@ public:
             return *this;
         }
 
+        Iterator operator++(int) {
+            Iterator temp = *this;
+            ++(*this);
+            return temp;
+        }
+
         Iterator& operator--() {
             if (current) current = current->prev;
             return *this;
+        }
+
+        Iterator operator--(int) {
+            Iterator temp = *this;
+            --(*this);
+            return temp;
         }
 
         bool operator==(const Iterator& other) const { return current == other.current; }
@@ -95,7 +107,6 @@ DoublyLinkedList<T>& DoublyLinkedList<T>::operator=(const DoublyLinkedList& othe
     clear();
     for (auto curr = other.head; curr != nullptr; curr = curr->next)
         pushBack(curr->data);
-
     return *this;
 }
 
@@ -108,16 +119,15 @@ DoublyLinkedList<T>& DoublyLinkedList<T>::operator=(DoublyLinkedList&& other) no
     head = other.head;
     tail = other.tail;
     size_ = other.size_;
+
     other.head = other.tail = nullptr;
     other.size_ = 0;
-
     return *this;
 }
 
 template <typename T>
 void DoublyLinkedList<T>::pushBack(const T& value) {
     auto newNode = new Node(value);
-
     if (!tail) {
         head = tail = newNode;
     } else {
@@ -131,7 +141,6 @@ void DoublyLinkedList<T>::pushBack(const T& value) {
 template <typename T>
 void DoublyLinkedList<T>::pushFront(const T& value) {
     auto newNode = new Node(value);
-
     if (!head) {
         head = tail = newNode;
     } else {
@@ -149,7 +158,6 @@ void DoublyLinkedList<T>::popBack() {
 
     auto tmp = tail;
     tail = tail->prev;
-
     if (tail)
         tail->next = nullptr;
     else
@@ -166,7 +174,6 @@ void DoublyLinkedList<T>::popFront() {
 
     auto tmp = head;
     head = head->next;
-
     if (head)
         head->prev = nullptr;
     else
