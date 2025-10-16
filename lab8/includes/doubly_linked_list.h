@@ -69,8 +69,6 @@ public:
     size_t size() const noexcept { return size_; }
 };
 
-// ------------------- Implementation -------------------
-
 template <typename T>
 DoublyLinkedList<T>::~DoublyLinkedList() {
     clear();

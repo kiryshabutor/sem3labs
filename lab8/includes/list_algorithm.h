@@ -12,14 +12,10 @@ public:
 
 template <typename T>
 bool ListAlgorithm<T>::find(const DoublyLinkedList<T>& list, const T& value) const {
-    // безопасно и совместимо со всеми компиляторами
     for (auto it = list.begin(); it != list.end(); ++it)
         if (*it == value)
             return true;
     return false;
-
-    // если твой компилятор поддерживает ranges с кастомными итераторами — можно заменить на:
-    // return std::ranges::any_of(list, [&](const T& elem) { return elem == value; });
 }
 
 template <typename T>
