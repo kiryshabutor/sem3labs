@@ -105,7 +105,7 @@ static string inputWordSafely(const string& prompt) {
     while (true) {
         try {
             return safeInputWord(prompt);
-        } catch (const invalid_argument& ex) {
+        } catch (const InputValidationError& ex) {
             cout << "Invalid argument: " << ex.what() << ". Please try again.\n";
         } catch (const out_of_range& ex) {
             cout << "Value out of range: " << ex.what() << ". Please try again.\n";
@@ -121,7 +121,7 @@ void Tourist::inputData() {
             Person::inputData();
             passportData = inputWordSafely("Enter passport data: ");
             break;
-        } catch (const invalid_argument& e) {
+        } catch (const InputValidationError& e) {
             cout << "Invalid argument: " << e.what() << ". Please try again.\n";
         } catch (const out_of_range& e) {
             cout << "Value out of range: " << e.what() << ". Try again.\n";

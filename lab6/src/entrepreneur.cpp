@@ -83,7 +83,7 @@ static int inputPositiveIntSafely(const string& prompt) {
     while (true) {
         try {
             return safePositiveInputInt(prompt);
-        } catch (const invalid_argument& ex) {
+        } catch (const InputValidationError& ex) {
             cout << "Invalid argument: " << ex.what() << ". Please try again.\n";
         } catch (const out_of_range& ex) {
             cout << "Value out of range: " << ex.what() << ". Please try again.\n";
@@ -97,7 +97,7 @@ static string inputLineSafely(const string& prompt) {
     while (true) {
         try {
             return safeInputLine(prompt);
-        } catch (const invalid_argument& ex) {
+        } catch (const InputValidationError& ex) {
             cout << "Invalid argument: " << ex.what() << ". Please try again.\n";
         } catch (const out_of_range& ex) {
             cout << "Value out of range: " << ex.what() << ". Please try again.\n";
@@ -115,7 +115,7 @@ void Entrepreneur::inputData() {
             registrationAddress = inputLineSafely("Enter registration address: ");
             inn = inputPositiveIntSafely("Enter INN: ");
             break;
-        } catch (const invalid_argument& e) {
+        } catch (const InputValidationError& e) {
             cout << "Invalid argument: " << e.what() << ". Please try again.\n";
         } catch (const out_of_range& e) {
             cout << "Value out of range: " << e.what() << ". Please try again.\n";
@@ -124,6 +124,7 @@ void Entrepreneur::inputData() {
         }
     }
 }
+
 
 void Entrepreneur::printInfo() const {
     Person::printInfo();

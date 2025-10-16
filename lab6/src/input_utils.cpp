@@ -30,21 +30,21 @@ int safeInputInt(const string &prompt) {
 
     regex pat(R"(^[+-]?\d+$)");
     if (!regex_match(input, pat))
-        throw invalid_argument(std::format("Invalid integer input: '{}'", input));
+        throw InputValidationError(std::format("Invalid integer input: '{}'", input));
 
     try {
         return stoi(input);
     } catch (const invalid_argument &) {
-        throw invalid_argument(std::format("Invalid integer format: '{}'", input));
+        throw InputValidationError(std::format("Invalid integer format: '{}'", input));
     } catch (const out_of_range &) {
-        throw out_of_range(std::format("Integer out of range: '{}'", input));
+        throw InputValidationError(std::format("Integer out of range: '{}'", input));
     }
 }
 
 int safePositiveInputInt(const string &prompt) {
     int number = safeInputInt(prompt);
     if (number <= 0)
-        throw invalid_argument(std::format("Number must be positive, got {}", number));
+        throw InputValidationError(std::format("Number must be positive, got {}", number));
     return number;
 }
 
@@ -53,7 +53,7 @@ float safeInputFloat(const string &prompt) {
     regex pat(R"(^[+-]?\d+([.,]\d+)?$)");
 
     if (!regex_match(input, pat))
-        throw invalid_argument(std::format("Invalid float input: '{}'", input));
+        throw InputValidationError(std::format("Invalid float input: '{}'", input));
 
     ranges::replace(input, ',', '.');
 
@@ -63,7 +63,7 @@ float safeInputFloat(const string &prompt) {
     ss >> value;
 
     if (!ss || !ss.eof())
-        throw invalid_argument(std::format("Invalid float format: '{}'", input));
+        throw InputValidationError(std::format("Invalid float format: '{}'", input));
 
     return value;
 }
@@ -71,14 +71,14 @@ float safeInputFloat(const string &prompt) {
 float safePositiveInputFloat(const string &prompt) {
     float number = safeInputFloat(prompt);
     if (number <= 0.0f)
-        throw invalid_argument(std::format("Number must be positive, got {:.2f}", number));
+        throw InputValidationError(std::format("Number must be positive, got {:.2f}", number));
     return number;
 }
 
 string safeInputLine(const string &prompt) {
     string input = readLineTrimmed(prompt);
     if (input.empty())
-        throw invalid_argument("Input cannot be empty.");
+        throw InputValidationError("Input cannot be empty.");
     return input;
 }
 
@@ -86,6 +86,6 @@ string safeInputWord(const string &prompt) {
     string input = readLineTrimmed(prompt);
     regex pat(R"(^\S+$)");
     if (!regex_match(input, pat))
-        throw invalid_argument(std::format("Invalid word input: '{}'", input));
+        throw InputValidationError(std::format("Invalid word input: '{}'", input));
     return input;
 }

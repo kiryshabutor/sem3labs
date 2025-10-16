@@ -62,7 +62,7 @@ void App::menuPerson() const {
                 default:
                     cout << "Invalid choice.\n";
             }
-        } catch (const invalid_argument& e) {
+        } catch (const InputValidationError& e) {
             cout << "Invalid argument: " << e.what() << "\nPlease try again.\n";
         } catch (const out_of_range& e) {
             cout << "Value out of range: " << e.what() << "\nPlease try again.\n";
@@ -106,7 +106,7 @@ void App::menuEntrepreneur() const {
                 default:
                     cout << "Invalid choice.\n";
             }
-        } catch (const invalid_argument& e) {
+        } catch (const InputValidationError& e) {
             cout << "Invalid argument: " << e.what() << "\nPlease try again.\n";
         } catch (const out_of_range& e) {
             cout << "Value out of range: " << e.what() << "\nPlease try again.\n";
@@ -150,7 +150,7 @@ void App::menuTourist() const {
                 default:
                     cout << "Invalid choice.\n";
             }
-        } catch (const invalid_argument& e) {
+        } catch (const InputValidationError& e) {
             cout << "Invalid argument: " << e.what() << "\nPlease try again.\n";
         } catch (const out_of_range& e) {
             cout << "Value out of range: " << e.what() << "\nPlease try again.\n";
@@ -217,7 +217,7 @@ void App::menuShuttler() const {
                 default:
                     cout << "Invalid choice.\n";
             }
-        } catch (const invalid_argument& e) {
+        } catch (const InputValidationError& e) {
             cout << "Invalid argument: " << e.what() << "\nPlease try again.\n";
         } catch (const out_of_range& e) {
             cout << "Value out of range: " << e.what() << "\nPlease try again.\n";
@@ -234,7 +234,7 @@ void App::run() {
             showMainMenu();
             choice = safeInputInt("Choose: ");
             handleChoice(choice);
-        } catch (const invalid_argument& e) {
+        } catch (const InputValidationError& e) {
             cout << "Invalid argument: " << e.what() << "\nPlease try again.\n";
         } catch (const out_of_range& e) {
             cout << "Value out of range: " << e.what() << "\nPlease try again.\n";

@@ -100,7 +100,7 @@ string Shuttler::inputShoppingAddress(int index) const {
     while (true) {
         try {
             return safeInputLine(std::format("Address {}: ", index + 1));
-        } catch (const invalid_argument& ex) {
+        } catch (const InputValidationError& ex) {
             cout << "Invalid argument: " << ex.what() << ". Try again.\n";
         } catch (const out_of_range& ex) {
             cout << "Value out of range: " << ex.what() << ". Try again.\n";
@@ -123,12 +123,12 @@ void Shuttler::inputData() {
             }
 
             break;
-        } catch (const invalid_argument& e) {
+        } catch (const InputValidationError& e) {
             cout << "Invalid argument: " << e.what() << ". Please try again.\n";
         } catch (const out_of_range& e) {
             cout << "Value out of range: " << e.what() << ". Try again.\n";
         } catch (const system_error& e) {
-            cout << "System error: " << e.what() << ". Please try again.\n";
+            cout << "System error: " << e.what() << ". Try again.\n";
         }
     }
 }

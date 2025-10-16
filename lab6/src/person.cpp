@@ -26,7 +26,7 @@ static string inputWordSafely(const string& prompt) {
     while (true) {
         try {
             return safeInputWord(prompt);
-        } catch (const invalid_argument& ex) {
+        } catch (const InputValidationError& ex) {
             cout << "Invalid argument: " << ex.what() << ". Please try again.\n";
         } catch (const out_of_range& ex) {
             cout << "Value out of range: " << ex.what() << ". Please try again.\n";
@@ -40,7 +40,7 @@ static int inputPositiveIntSafely(const string& prompt) {
     while (true) {
         try {
             return safePositiveInputInt(prompt);
-        } catch (const invalid_argument& ex) {
+        } catch (const InputValidationError& ex) {
             cout << "Invalid argument: " << ex.what() << ". Please try again.\n";
         } catch (const out_of_range& ex) {
             cout << "Value out of range: " << ex.what() << ". Please try again.\n";
@@ -67,12 +67,12 @@ void Person::inputData() {
             localtime_r(&tt, &tmv);
 #endif
             int currentYear = tmv.tm_year + TM_YEAR_BASE;
-            if (y > currentYear) throw invalid_argument("Year cannot be in the future.");
+            if (y > currentYear) throw InputValidationError("Year cannot be in the future.");
 
             birthYear = y;
             break;
 
-        } catch (const invalid_argument& e) {
+        } catch (const InputValidationError& e) {
             cout << "Invalid argument: " << e.what() << ". Please try again.\n";
         } catch (const out_of_range& e) {
             cout << "Value out of range: " << e.what() << ". Please try again.\n";
