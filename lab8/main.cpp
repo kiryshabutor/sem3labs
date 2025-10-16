@@ -5,9 +5,8 @@ int main() {
               << "1 - int\n"
               << "2 - double\n"
               << "3 - char\n";
-    int type = safeInputInt("Enter type: ");
 
-    switch (type) {
+    switch (safeInputInt("Enter type: ")) {
         case 1: {
             App<int> app;
             app.run();

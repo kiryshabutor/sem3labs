@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <stdexcept>
+#include <iterator>  // для iterator tags
 
 template <typename T>
 class DoublyLinkedList {
@@ -26,14 +27,28 @@ public:
 
     class Iterator {
         Node* current;
+
     public:
+        using iterator_category = std::bidirectional_iterator_tag;
+        using value_type = T;
+        using difference_type = std::ptrdiff_t;
+        using pointer = T*;
+        using reference = T&;
+
         Iterator() : current(nullptr) {}
         explicit Iterator(Node* ptr) : current(ptr) {}
 
-        T& operator*() { return current->data; }
+        reference operator*() const { return current->data; }
 
-        Iterator& operator++() { if (current) current = current->next; return *this; }
-        Iterator& operator--() { if (current) current = current->prev; return *this; }
+        Iterator& operator++() {
+            if (current) current = current->next;
+            return *this;
+        }
+
+        Iterator& operator--() {
+            if (current) current = current->prev;
+            return *this;
+        }
 
         bool operator==(const Iterator& other) const { return current == other.current; }
         bool operator!=(const Iterator& other) const { return current != other.current; }
@@ -44,7 +59,6 @@ public:
     Iterator begin() const { return Iterator(head); }
     Iterator end() const { return Iterator(nullptr); }
 
-    // ---- основные методы ----
     void pushBack(const T& value);
     void pushFront(const T& value);
     void popBack();
@@ -55,12 +69,16 @@ public:
     size_t size() const noexcept { return size_; }
 };
 
+// ------------------- Implementation -------------------
+
 template <typename T>
-DoublyLinkedList<T>::~DoublyLinkedList() { clear(); }
+DoublyLinkedList<T>::~DoublyLinkedList() {
+    clear();
+}
 
 template <typename T>
 DoublyLinkedList<T>::DoublyLinkedList(const DoublyLinkedList& other) {
-    for (Node* curr = other.head; curr != nullptr; curr = curr->next)
+    for (auto curr = other.head; curr != nullptr; curr = curr->next)
         pushBack(curr->data);
 }
 
@@ -73,30 +91,35 @@ DoublyLinkedList<T>::DoublyLinkedList(DoublyLinkedList&& other) noexcept
 
 template <typename T>
 DoublyLinkedList<T>& DoublyLinkedList<T>::operator=(const DoublyLinkedList& other) {
-    if (this == &other) return *this;
+    if (this == &other)
+        return *this;
+
     clear();
-    for (Node* curr = other.head; curr != nullptr; curr = curr->next)
+    for (auto curr = other.head; curr != nullptr; curr = curr->next)
         pushBack(curr->data);
+
     return *this;
 }
 
 template <typename T>
 DoublyLinkedList<T>& DoublyLinkedList<T>::operator=(DoublyLinkedList&& other) noexcept {
-    if (this == &other) return *this;
+    if (this == &other)
+        return *this;
+
     clear();
     head = other.head;
     tail = other.tail;
     size_ = other.size_;
     other.head = other.tail = nullptr;
     other.size_ = 0;
+
     return *this;
 }
 
-// ---- Реализация методов ----
-
 template <typename T>
 void DoublyLinkedList<T>::pushBack(const T& value) {
-    Node* newNode = new Node(value);
+    auto newNode = new Node(value);
+
     if (!tail) {
         head = tail = newNode;
     } else {
@@ -109,7 +132,8 @@ void DoublyLinkedList<T>::pushBack(const T& value) {
 
 template <typename T>
 void DoublyLinkedList<T>::pushFront(const T& value) {
-    Node* newNode = new Node(value);
+    auto newNode = new Node(value);
+
     if (!head) {
         head = tail = newNode;
     } else {
@@ -122,31 +146,43 @@ void DoublyLinkedList<T>::pushFront(const T& value) {
 
 template <typename T>
 void DoublyLinkedList<T>::popBack() {
-    if (!tail) return;
-    Node* tmp = tail;
+    if (!tail)
+        return;
+
+    auto tmp = tail;
     tail = tail->prev;
-    if (tail) tail->next = nullptr;
-    else head = nullptr;
+
+    if (tail)
+        tail->next = nullptr;
+    else
+        head = nullptr;
+
     delete tmp;
     --size_;
 }
 
 template <typename T>
 void DoublyLinkedList<T>::popFront() {
-    if (!head) return;
-    Node* tmp = head;
+    if (!head)
+        return;
+
+    auto tmp = head;
     head = head->next;
-    if (head) head->prev = nullptr;
-    else tail = nullptr;
+
+    if (head)
+        head->prev = nullptr;
+    else
+        tail = nullptr;
+
     delete tmp;
     --size_;
 }
 
 template <typename T>
 void DoublyLinkedList<T>::clear() {
-    Node* curr = head;
+    auto curr = head;
     while (curr) {
-        Node* tmp = curr;
+        auto tmp = curr;
         curr = curr->next;
         delete tmp;
     }
