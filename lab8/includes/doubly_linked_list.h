@@ -62,8 +62,7 @@ public:
             return temp;
         }
 
-        bool operator==(const Iterator& other) const { return current == other.current; }
-        bool operator!=(const Iterator& other) const { return current != other.current; }
+        bool operator==(const Iterator& other) const = default;
 
         friend class DoublyLinkedList;
     };
