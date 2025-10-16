@@ -24,7 +24,6 @@ private:
 
     void openFile(const std::string& filePath);
 
-    // 🔽 Новые вспомогательные методы для уменьшения дублирования
     void validateFileOpen() const;
     void ensureFileIsOpen() const;
     void validateIndex(std::size_t index) const;
