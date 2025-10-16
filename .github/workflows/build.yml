@@ -24,6 +24,32 @@ jobs:
       - name: Install Build Wrapper
         uses: SonarSource/sonarqube-scan-action/install-build-wrapper@v4
 
+      # ===== LAB 6 =====
+      - name: Build lab6
+        run: |
+          if (Test-Path lab6/build) { Remove-Item -Recurse -Force lab6/build }
+          mkdir lab6/build
+          cmake -S lab6 -B lab6/build
+          build-wrapper-win-x86-64.exe --out-dir lab6/build_wrapper cmake --build lab6/build --config Release
+        shell: pwsh
+
+      - name: SonarCloud scan lab6
+        uses: SonarSource/sonarqube-scan-action@v4
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.projectKey=kiryshabutor_cpp-lab6
+            -Dsonar.organization=${{ env.SONAR_ORG }}
+            -Dsonar.sources=lab6
+            -Dsonar.cfamily.compile-commands=lab6/build_wrapper/compile_commands.json
+            -Dsonar.coverage.exclusions=**
+            -Dsonar.cfamily.skipCoverage=true
+            -Dsonar.branch.name=main
+            -Dsonar.issue.ignore.multicriteria.e1.ruleKey=cxx:S5025
+            -Dsonar.issue.ignore.multicriteria.e1.resourceKey=**/*
+
+      # ===== LAB 7 =====
       - name: Build lab7
         run: |
           if (Test-Path lab7/build) { Remove-Item -Recurse -Force lab7/build }
