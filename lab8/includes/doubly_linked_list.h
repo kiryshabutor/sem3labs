@@ -1,0 +1,155 @@
+#pragma once
+#include <iostream>
+#include <stdexcept>
+
+template <typename T>
+class DoublyLinkedList {
+    struct Node {
+        T data;
+        Node* prev;
+        Node* next;
+        explicit Node(const T& value) : data(value), prev(nullptr), next(nullptr) {}
+    };
+
+    Node* head = nullptr;
+    Node* tail = nullptr;
+    size_t size_ = 0;
+
+public:
+    DoublyLinkedList() = default;
+    DoublyLinkedList(const DoublyLinkedList& other);
+    DoublyLinkedList(DoublyLinkedList&& other) noexcept;
+    ~DoublyLinkedList();
+
+    DoublyLinkedList& operator=(const DoublyLinkedList& other);
+    DoublyLinkedList& operator=(DoublyLinkedList&& other) noexcept;
+
+    class Iterator {
+        Node* current;
+    public:
+        Iterator() : current(nullptr) {}
+        explicit Iterator(Node* ptr) : current(ptr) {}
+
+        T& operator*() { return current->data; }
+
+        Iterator& operator++() { if (current) current = current->next; return *this; }
+        Iterator& operator--() { if (current) current = current->prev; return *this; }
+
+        bool operator==(const Iterator& other) const { return current == other.current; }
+        bool operator!=(const Iterator& other) const { return current != other.current; }
+
+        friend class DoublyLinkedList;
+    };
+
+    Iterator begin() const { return Iterator(head); }
+    Iterator end() const { return Iterator(nullptr); }
+
+    // ---- основные методы ----
+    void pushBack(const T& value);
+    void pushFront(const T& value);
+    void popBack();
+    void popFront();
+    void clear();
+
+    bool empty() const noexcept { return size_ == 0; }
+    size_t size() const noexcept { return size_; }
+};
+
+template <typename T>
+DoublyLinkedList<T>::~DoublyLinkedList() { clear(); }
+
+template <typename T>
+DoublyLinkedList<T>::DoublyLinkedList(const DoublyLinkedList& other) {
+    for (Node* curr = other.head; curr != nullptr; curr = curr->next)
+        pushBack(curr->data);
+}
+
+template <typename T>
+DoublyLinkedList<T>::DoublyLinkedList(DoublyLinkedList&& other) noexcept
+    : head(other.head), tail(other.tail), size_(other.size_) {
+    other.head = other.tail = nullptr;
+    other.size_ = 0;
+}
+
+template <typename T>
+DoublyLinkedList<T>& DoublyLinkedList<T>::operator=(const DoublyLinkedList& other) {
+    if (this == &other) return *this;
+    clear();
+    for (Node* curr = other.head; curr != nullptr; curr = curr->next)
+        pushBack(curr->data);
+    return *this;
+}
+
+template <typename T>
+DoublyLinkedList<T>& DoublyLinkedList<T>::operator=(DoublyLinkedList&& other) noexcept {
+    if (this == &other) return *this;
+    clear();
+    head = other.head;
+    tail = other.tail;
+    size_ = other.size_;
+    other.head = other.tail = nullptr;
+    other.size_ = 0;
+    return *this;
+}
+
+// ---- Реализация методов ----
+
+template <typename T>
+void DoublyLinkedList<T>::pushBack(const T& value) {
+    Node* newNode = new Node(value);
+    if (!tail) {
+        head = tail = newNode;
+    } else {
+        tail->next = newNode;
+        newNode->prev = tail;
+        tail = newNode;
+    }
+    ++size_;
+}
+
+template <typename T>
+void DoublyLinkedList<T>::pushFront(const T& value) {
+    Node* newNode = new Node(value);
+    if (!head) {
+        head = tail = newNode;
+    } else {
+        newNode->next = head;
+        head->prev = newNode;
+        head = newNode;
+    }
+    ++size_;
+}
+
+template <typename T>
+void DoublyLinkedList<T>::popBack() {
+    if (!tail) return;
+    Node* tmp = tail;
+    tail = tail->prev;
+    if (tail) tail->next = nullptr;
+    else head = nullptr;
+    delete tmp;
+    --size_;
+}
+
+template <typename T>
+void DoublyLinkedList<T>::popFront() {
+    if (!head) return;
+    Node* tmp = head;
+    head = head->next;
+    if (head) head->prev = nullptr;
+    else tail = nullptr;
+    delete tmp;
+    --size_;
+}
+
+template <typename T>
+void DoublyLinkedList<T>::clear() {
+    Node* curr = head;
+    while (curr) {
+        Node* tmp = curr;
+        curr = curr->next;
+        delete tmp;
+    }
+    head = tail = nullptr;
+    size_ = 0;
+}

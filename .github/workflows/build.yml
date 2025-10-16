@@ -24,50 +24,25 @@ jobs:
       - name: Install Build Wrapper
         uses: SonarSource/sonarqube-scan-action/install-build-wrapper@v4
 
-      # ===== LAB 6 =====
-      - name: Build lab6
+      # ===== LAB 8 =====
+      - name: Build lab8
         run: |
-          if (Test-Path lab6/build) { Remove-Item -Recurse -Force lab6/build }
-          mkdir lab6/build
-          cmake -S lab6 -B lab6/build
-          build-wrapper-win-x86-64.exe --out-dir lab6/build_wrapper cmake --build lab6/build --config Release
+          if (Test-Path lab8/build) { Remove-Item -Recurse -Force lab8/build }
+          mkdir lab8/build
+          cmake -S lab8 -B lab8/build
+          build-wrapper-win-x86-64.exe --out-dir lab8/build_wrapper cmake --build lab8/build --config Release
         shell: pwsh
 
-      - name: SonarCloud scan lab6
+      - name: SonarCloud scan lab8
         uses: SonarSource/sonarqube-scan-action@v4
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-            -Dsonar.projectKey=kiryshabutor_cpp-lab6
+            -Dsonar.projectKey=kiryshabutor_cpp-lab8
             -Dsonar.organization=${{ env.SONAR_ORG }}
-            -Dsonar.sources=lab6
-            -Dsonar.cfamily.compile-commands=lab6/build_wrapper/compile_commands.json
-            -Dsonar.coverage.exclusions=**
-            -Dsonar.cfamily.skipCoverage=true
-            -Dsonar.branch.name=main
-            -Dsonar.issue.ignore.multicriteria.e1.ruleKey=cxx:S5025
-            -Dsonar.issue.ignore.multicriteria.e1.resourceKey=**/*
-
-      # ===== LAB 7 =====
-      - name: Build lab7
-        run: |
-          if (Test-Path lab7/build) { Remove-Item -Recurse -Force lab7/build }
-          mkdir lab7/build
-          cmake -S lab7 -B lab7/build
-          build-wrapper-win-x86-64.exe --out-dir lab7/build_wrapper cmake --build lab7/build --config Release
-        shell: pwsh
-
-      - name: SonarCloud scan lab7
-        uses: SonarSource/sonarqube-scan-action@v4
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          args: >
-            -Dsonar.projectKey=kiryshabutor_cpp-lab7
-            -Dsonar.organization=${{ env.SONAR_ORG }}
-            -Dsonar.sources=lab7
-            -Dsonar.cfamily.compile-commands=lab7/build_wrapper/compile_commands.json
+            -Dsonar.sources=lab8
+            -Dsonar.cfamily.compile-commands=lab8/build_wrapper/compile_commands.json
             -Dsonar.coverage.exclusions=**
             -Dsonar.cfamily.skipCoverage=true
             -Dsonar.branch.name=main
