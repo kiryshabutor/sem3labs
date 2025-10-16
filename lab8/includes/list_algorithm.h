@@ -12,9 +12,9 @@ public:
 
 template <typename T>
 bool ListAlgorithm<T>::find(const DoublyLinkedList<T>& list, const T& value) const {
-    return std::ranges::any_of(list.begin(), list.end(),
-                               [&](const T& elem) { return elem == value; });
+    return std::ranges::any_of(list, [&](const T& elem) { return elem == value; });
 }
+
 
 template <typename T>
 void ListAlgorithm<T>::sort(DoublyLinkedList<T>& list) const {
