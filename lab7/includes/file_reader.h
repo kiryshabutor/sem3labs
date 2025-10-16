@@ -23,4 +23,10 @@ private:
     std::size_t fileSize_{};
 
     void openFile(const std::string& filePath);
+
+    // 🔽 Новые вспомогательные методы для уменьшения дублирования
+    void validateFileOpen() const;
+    void ensureFileIsOpen() const;
+    void validateIndex(std::size_t index) const;
+    void closeFileSafely() noexcept;
 };

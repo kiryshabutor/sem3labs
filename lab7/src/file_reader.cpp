@@ -13,19 +13,8 @@ FileReader::FileReader(const std::string& filePath)
 }
 
 FileReader::~FileReader() noexcept {
-    if (fileStream_) {
-        try {
-            fileStream_->exceptions(std::ios::goodbit);
-            if (fileStream_->is_open()) {
-                fileStream_->close();
-            }
-        } catch (...) {
-            fputs("Warning: failed to close file.\n", stderr);
-        }
-    }
+    closeFileSafely();
 }
-
-
 
 FileReader::FileReader(const FileReader& other)
     : filePath_(other.filePath_) {
@@ -59,9 +48,7 @@ FileReader& FileReader::operator=(FileReader&& other) noexcept {
 
 void FileReader::openFile(const std::string& filePath) {
     fileStream_ = std::make_unique<std::fstream>(filePath, FILE_MODE);
-    if (!fileStream_ || !fileStream_->is_open()) {
-        throw std::ios_base::failure(std::format("Failed to open file '{}'", filePath));
-    }
+    validateFileOpen();
 
     fileStream_->seekg(0, std::ios::end);
     fileSize_ = static_cast<std::size_t>(fileStream_->tellg());
@@ -73,13 +60,8 @@ void FileReader::openFile(const std::string& filePath) {
 }
 
 char FileReader::operator[](std::size_t index) const {
-    if (!fileStream_ || !fileStream_->is_open()) {
-        throw std::ios_base::failure("File is not open");
-    }
-
-    if (index >= fileSize_) {
-        throw std::out_of_range(std::format("Index out of file range ({} >= {})", index, fileSize_));
-    }
+    ensureFileIsOpen();
+    validateIndex(index);
 
     fileStream_->seekg(static_cast<std::streampos>(index), std::ios::beg);
     char ch{};
@@ -91,9 +73,7 @@ char FileReader::operator[](std::size_t index) const {
 }
 
 void FileReader::printFileContent() const {
-    if (!fileStream_ || !fileStream_->is_open()) {
-        throw std::ios_base::failure("File is not open");
-    }
+    ensureFileIsOpen();
 
     fileStream_->seekg(0, std::ios::beg);
     std::cout << "\nFile content:\n";
@@ -105,13 +85,8 @@ void FileReader::printFileContent() const {
 }
 
 void FileReader::replaceCharacter(std::size_t index, char newChar) {
-    if (!fileStream_ || !fileStream_->is_open()) {
-        throw std::ios_base::failure("File is not open");
-    }
-
-    if (index >= fileSize_) {
-        throw std::out_of_range(std::format("Index out of file range ({} >= {})", index, fileSize_));
-    }
+    ensureFileIsOpen();
+    validateIndex(index);
 
     fileStream_->seekp(static_cast<std::streampos>(index), std::ios::beg);
     fileStream_->put(newChar);
@@ -119,4 +94,35 @@ void FileReader::replaceCharacter(std::size_t index, char newChar) {
         throw std::ios_base::failure(std::format("Failed to write at position {}", index));
     }
     fileStream_->flush();
+}
+
+void FileReader::validateFileOpen() const {
+    if (!fileStream_ || !fileStream_->is_open()) {
+        throw std::ios_base::failure(std::format("Failed to open file '{}'", filePath_));
+    }
+}
+
+void FileReader::ensureFileIsOpen() const {
+    if (!fileStream_ || !fileStream_->is_open()) {
+        throw std::ios_base::failure("File is not open");
+    }
+}
+
+void FileReader::validateIndex(std::size_t index) const {
+    if (index >= fileSize_) {
+        throw std::out_of_range(std::format("Index out of file range ({} >= {})", index, fileSize_));
+    }
+}
+
+void FileReader::closeFileSafely() noexcept {
+    if (fileStream_) {
+        try {
+            fileStream_->exceptions(std::ios::goodbit);
+            if (fileStream_->is_open()) {
+                fileStream_->close();
+            }
+        } catch (...) {
+            fputs("Warning: failed to close file.\n", stderr);
+        }
+    }
 }
